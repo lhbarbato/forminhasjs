@@ -17,7 +17,7 @@ const produtos = [
     { id: 14, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.jpeg', 'azul.marinho.png'],     descricao: 'Forminha artesanal azul marinho' },
     { id: 15, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.jpeg', 'azul.petroleo.png'],   descricao: 'Forminha artesanal azul petróleo' },
     { id: 16, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.jpeg', 'azul.serenity.png'],   descricao: 'Forminha artesanal azul serenity' },
-    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg', 'azul.tiffany.png'],     descricao: 'Forminha artesanal azul tiffany' },
+    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg', 'azul.tifanny.png'],     descricao: 'Forminha artesanal azul tiffany' },
 ];
 
 // Cores para exibição
