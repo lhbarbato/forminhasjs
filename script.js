@@ -10,13 +10,13 @@ const produtos = [
     { id: 8,  nome: 'Forminha Verde Menta',         cor: 'verde',      preco: 13.90, fotos: ['img/verde-menta-1.jpg',  'img/verde-menta-2.jpg'],   descricao: 'Forminha artesanal verde menta' },
     { id: 9,  nome: 'Forminha Branca Pura',         cor: 'branco',     preco: 11.90, fotos: ['img/branca-pura-1.jpg',  'img/branca-pura-2.jpg'],   descricao: 'Forminha artesanal branca pura' },
     { id: 10, nome: 'Forminha Multicolor Premium',  cor: 'multicolor', preco: 15.90, fotos: ['img/multi-1.jpg',        'img/multi-2.jpg'],         descricao: 'Forminha artesanal multicolor premium' },
-    { id: 11, nome: 'Forminha Azul Bebê',           cor: 'azul',       preco: 12.90, fotos: ['img/azul-bebe-1.jpg',    'img/azul-bebe-2.jpg'],     descricao: 'Forminha artesanal azul bebê' },
-    { id: 12, nome: 'Forminha Azul Royal',          cor: 'azul',       preco: 13.90, fotos: ['img/azul-royal-1.jpg',   'img/azul-royal-2.jpg'],    descricao: 'Forminha artesanal azul royal' },
-    { id: 13, nome: 'Forminha Azul Céu',            cor: 'azul',       preco: 12.90, fotos: ['img/azul-ceu-1.jpg',     'img/azul-ceu-2.jpg'],      descricao: 'Forminha artesanal azul céu' },
-    { id: 14, nome: 'Forminha Azul Pastel',         cor: 'azul',       preco: 13.90, fotos: ['img/azul-pastel-1.jpg',  'img/azul-pastel-2.jpg'],   descricao: 'Forminha artesanal azul pastel' },
-    { id: 15, nome: 'Forminha Azul Turquesa',       cor: 'azul',       preco: 14.90, fotos: ['img/azul-turquesa-1.jpg','img/azul-turquesa-2.jpg'], descricao: 'Forminha artesanal azul turquesa' },
-    { id: 16, nome: 'Forminha Azul Marinho',        cor: 'azul',       preco: 13.90, fotos: ['img/azul-marinho-1.jpg', 'img/azul-marinho-2.jpg'],  descricao: 'Forminha artesanal azul marinho' },
-    { id: 17, nome: 'Forminha Azul e Branco',       cor: 'azul',       preco: 14.90, fotos: ['img/azul-branco-1.jpg',  'img/azul-branco-2.jpg'],   descricao: 'Forminha artesanal azul e branco' },
+    { id: 11, nome: 'Forminha Azul Bebê',           cor: 'azul',       preco: 12.90, fotos: ['img/azul bebe.jpeg',      'img/azul.bebe.png'],     descricao: 'Forminha artesanal azul bebê' },
+    { id: 12, nome: 'Forminha Azul Claro',          cor: 'azul',       preco: 13.90, fotos: ['img/azul claro.jpeg',     'img/azul.claro.png'],    descricao: 'Forminha artesanal azul royal' },
+    { id: 13, nome: 'Forminha Azul Escuro',         cor: 'azul',       preco: 12.90, fotos: ['img/azul escuro.jpeg',    'img/azul.escuro.png'],      descricao: 'Forminha artesanal azul céu' },
+    { id: 14, nome: 'Forminha Azul Marinho',        cor: 'azul',       preco: 13.90, fotos: ['img/azul marinho.jpeg',   'img/azul.marinho.png'],   descricao: 'Forminha artesanal azul pastel' },
+    { id: 15, nome: 'Forminha Azul Petróleo',       cor: 'azul',       preco: 14.90, fotos: ['img/azul petroleo.jpeg',  'img/azul.petroleo-2.png'], descricao: 'Forminha artesanal azul turquesa' },
+    { id: 16, nome: 'Forminha Azul Serenity',        cor: 'azul',       preco: 13.90, fotos: ['img/azul serenity.jpeg', 'img/azul.serenity.png'],  descricao: 'Forminha artesanal azul marinho' },
+    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['img/azul tiffany.jpeg',   'img/azul.tiffany.png'],   descricao: 'Forminha artesanal azul e branco' },
 ];
 
 // Cores para exibição
