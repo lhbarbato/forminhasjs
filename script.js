@@ -124,32 +124,17 @@ function irParaFoto(produtoId, index) {
     if (dots[index]) dots[index].classList.add('ativo');
 }
 
-// Adicionar ao carrinho
-function adicionarAoCarrinho(id) {
-    const produto = produtos.find(p => p.id === id);
-
-    const itemExistente = carrinho.find(item => item.id === id);
-    if (itemExistente) {
-        itemExistente.quantidade++;
-    } else {
-        carrinho.push({
-            id: produto.id,
-            nome: produto.nome,
-            preco: produto.preco,
-            quantidade: 1,
-            cor: produto.cor
-        });
-    }
-
-    atualizarCarrinho();
-    alert(`${produto.nome} adicionado ao carrinho! 🛒`);
-}
-
 // Atualizar carrinho
 function atualizarCarrinho() {
     const contador = carrinho.reduce((total, item) => total + item.quantidade, 0);
-    document.getElementById('contadorCarrinho').textContent = `Carrinho: ${contador} itens`;
-
+    
+    // Atualiza o contador no menu (nav)
+    const contadorNav = document.getElementById('contadorCarrinhoNav');
+    if (contadorNav) {
+        contadorNav.textContent = contador;
+    }
+    
+    // Atualiza o modal do carrinho
     const listaCarrinho = document.getElementById('listaCarrinho');
     listaCarrinho.innerHTML = '';
 

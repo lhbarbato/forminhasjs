@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER -->
+    <!-- HEADER - VERSÃO COMPACTA -->
     <header>
         <div class="container">
             <div class="logo">
@@ -19,6 +19,12 @@
                     <li><a href="#inicio">Início</a></li>
                     <li><a href="#produtos">Produtos</a></li>
                     <li><a href="#contato">Contato</a></li>
+                    <li class="carrinho-nav">
+                        <a href="#" onclick="mostrarCarrinho()">
+                            🛒 Carrinho 
+                            <span id="contadorCarrinhoNav" class="carrinho-contador">0</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -74,17 +80,6 @@
 
             <div class="grid-produtos" id="gridProdutos">
                 <!-- Os produtos serão inseridos aqui pelo JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- CARRINHO (resumido) -->
-    <section class="carrinho-resumo">
-        <div class="container">
-            <div class="carrinho-info">
-                <span class="carrinho-icone">🛒</span>
-                <span id="contadorCarrinho">Carrinho: 0 itens</span>
-                <button class="btn-primary" onclick="mostrarCarrinho()">Ver Carrinho</button>
             </div>
         </div>
     </section>
