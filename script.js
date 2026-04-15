@@ -1,3 +1,4 @@
+
 // Dados dos produtos
 const produtos = [
     { id: 1,  nome: 'Forminha Rosa Claro',        cor: 'rosa',       preco: 12.90, fotos: ['img/rosa-claro-1.jpg',     'img/rosa-claro-2.jpg'],    descricao: 'Forminha artesanal rosa claro' },
@@ -10,13 +11,13 @@ const produtos = [
     { id: 8,  nome: 'Forminha Verde Menta',        cor: 'verde',      preco: 13.90, fotos: ['img/verde-menta-1.jpg',   'img/verde-menta-2.jpg'],   descricao: 'Forminha artesanal verde menta' },
     { id: 9,  nome: 'Forminha Branca Pura',        cor: 'branco',     preco: 11.90, fotos: ['img/branca-pura-1.jpg',   'img/branca-pura-2.jpg'],   descricao: 'Forminha artesanal branca pura' },
     { id: 10, nome: 'Forminha Multicolor Premium', cor: 'multicolor', preco: 15.90, fotos: ['img/multi-1.jpg',         'img/multi-2.jpg'],         descricao: 'Forminha artesanal multicolor premium' },
-    { id: 11, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.jpeg', 'azul.bebe.png'],         descricao: 'Forminha artesanal azul bebê' },
-    { id: 12, nome: 'Forminha Azul Claro',         cor: 'azul',       preco: 12.90, fotos: ['azul claro.jpeg', 'azul.claro.png'],        descricao: 'Forminha artesanal azul claro' },
-    { id: 13, nome: 'Forminha Azul Escuro',        cor: 'azul',       preco: 13.90, fotos: ['azul escuro.jpeg'],       descricao: 'Forminha artesanal azul escuro' },
-    { id: 14, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.jpeg'],      descricao: 'Forminha artesanal azul marinho' },
-    { id: 15, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.jpeg'],     descricao: 'Forminha artesanal azul petróleo' },
-    { id: 16, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.jpeg'],     descricao: 'Forminha artesanal azul serenity' },
-    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg'],      descricao: 'Forminha artesanal azul tiffany' },
+    { id: 11, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.jpeg', 'azul.bebe.png'],           descricao: 'Forminha artesanal azul bebê' },
+    { id: 12, nome: 'Forminha Azul Claro',         cor: 'azul',       preco: 12.90, fotos: ['azul claro.jpeg', 'azul.claro.png'],         descricao: 'Forminha artesanal azul claro' },
+    { id: 13, nome: 'Forminha Azul Escuro',        cor: 'azul',       preco: 13.90, fotos: ['azul escuro.jpeg', 'azul.escuro.png'],       descricao: 'Forminha artesanal azul escuro' },
+    { id: 14, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.jpeg', 'azul.marinho.png'],     descricao: 'Forminha artesanal azul marinho' },
+    { id: 15, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.jpeg', 'azul.petroleo.png'],   descricao: 'Forminha artesanal azul petróleo' },
+    { id: 16, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.jpeg', 'azul.serenity.png'],   descricao: 'Forminha artesanal azul serenity' },
+    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg', 'azul.tiffany.png'],     descricao: 'Forminha artesanal azul tiffany' },
 ];
 
 // Cores para exibição
@@ -91,6 +92,13 @@ function mudarFoto(produtoId, direcao) {
     const card = document.querySelector(`[data-produto-id="${produtoId}"]`);
     const fotos = card.querySelectorAll('.slide-foto');
     const dots = card.querySelectorAll('.dot');
+    
+    if (fotos.length <= 1) {
+        // Se só tem 1 foto, não faz nada ou mostra mensagem
+        console.log('Apenas uma foto disponível');
+        return;
+    }
+    
     let indexAtual = [...fotos].findIndex(f => f.classList.contains('ativo'));
 
     fotos[indexAtual].classList.remove('ativo');
@@ -106,6 +114,8 @@ function irParaFoto(produtoId, index) {
     const card = document.querySelector(`[data-produto-id="${produtoId}"]`);
     const fotos = card.querySelectorAll('.slide-foto');
     const dots = card.querySelectorAll('.dot');
+    
+    if (fotos.length <= 1) return;
 
     fotos.forEach(f => f.classList.remove('ativo'));
     dots.forEach(d => d.classList.remove('ativo'));
