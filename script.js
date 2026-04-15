@@ -1,4 +1,3 @@
-
 // Dados dos produtos
 const produtos = [
     { id: 1,  nome: 'Forminha Rosa Claro',        cor: 'rosa',       preco: 12.90, fotos: ['img/rosa-claro-1.jpg',     'img/rosa-claro-2.jpg'],    descricao: 'Forminha artesanal rosa claro' },
@@ -17,7 +16,7 @@ const produtos = [
     { id: 14, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.jpeg', 'azul.marinho.png'],     descricao: 'Forminha artesanal azul marinho' },
     { id: 15, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.jpeg', 'azul.petroleo.png'],   descricao: 'Forminha artesanal azul petróleo' },
     { id: 16, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.jpeg', 'azul.serenity.png'],   descricao: 'Forminha artesanal azul serenity' },
-    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg', 'azul.tifanny.png'],     descricao: 'Forminha artesanal azul tiffany' },
+    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.jpeg', 'azul.tiffany.png'],     descricao: 'Forminha artesanal azul tiffany' },
 ];
 
 // Cores para exibição
@@ -35,6 +34,8 @@ let carrinho = [];
 // Renderizar produtos
 function renderizarProdutos(filtro = 'todas') {
     const gridProdutos = document.getElementById('gridProdutos');
+    if (!gridProdutos) return;
+    
     gridProdutos.innerHTML = '';
 
     const produtosFiltrados = filtro === 'todas'
@@ -90,12 +91,12 @@ function renderizarProdutos(filtro = 'todas') {
 
 function mudarFoto(produtoId, direcao) {
     const card = document.querySelector(`[data-produto-id="${produtoId}"]`);
+    if (!card) return;
+    
     const fotos = card.querySelectorAll('.slide-foto');
     const dots = card.querySelectorAll('.dot');
     
     if (fotos.length <= 1) {
-        // Se só tem 1 foto, não faz nada ou mostra mensagem
-        console.log('Apenas uma foto disponível');
         return;
     }
     
@@ -112,6 +113,8 @@ function mudarFoto(produtoId, direcao) {
 
 function irParaFoto(produtoId, index) {
     const card = document.querySelector(`[data-produto-id="${produtoId}"]`);
+    if (!card) return;
+    
     const fotos = card.querySelectorAll('.slide-foto');
     const dots = card.querySelectorAll('.dot');
     
@@ -122,6 +125,28 @@ function irParaFoto(produtoId, index) {
 
     fotos[index].classList.add('ativo');
     if (dots[index]) dots[index].classList.add('ativo');
+}
+
+// Adicionar ao carrinho
+function adicionarAoCarrinho(id) {
+    const produto = produtos.find(p => p.id === id);
+    if (!produto) return;
+
+    const itemExistente = carrinho.find(item => item.id === id);
+    if (itemExistente) {
+        itemExistente.quantidade++;
+    } else {
+        carrinho.push({
+            id: produto.id,
+            nome: produto.nome,
+            preco: produto.preco,
+            quantidade: 1,
+            cor: produto.cor
+        });
+    }
+
+    atualizarCarrinho();
+    alert(`${produto.nome} adicionado ao carrinho! 🛒`);
 }
 
 // Atualizar carrinho
@@ -136,6 +161,8 @@ function atualizarCarrinho() {
     
     // Atualiza o modal do carrinho
     const listaCarrinho = document.getElementById('listaCarrinho');
+    if (!listaCarrinho) return;
+    
     listaCarrinho.innerHTML = '';
 
     if (carrinho.length === 0) {
@@ -159,7 +186,10 @@ function atualizarCarrinho() {
     }
 
     const totalCarrinho = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
-    document.getElementById('totalCarrinho').textContent = totalCarrinho.toFixed(2);
+    const totalElement = document.getElementById('totalCarrinho');
+    if (totalElement) {
+        totalElement.textContent = totalCarrinho.toFixed(2);
+    }
 }
 
 // Remover do carrinho
@@ -170,17 +200,26 @@ function removerDoCarrinho(index) {
 
 // Mostrar carrinho (modal)
 function mostrarCarrinho() {
-    document.getElementById('modalCarrinho').style.display = 'block';
+    const modal = document.getElementById('modalCarrinho');
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
 
 // Fechar carrinho
 function fecharCarrinho() {
-    document.getElementById('modalCarrinho').style.display = 'none';
+    const modal = document.getElementById('modalCarrinho');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Scroll para produtos
 function scrollToProducts() {
-    document.getElementById('produtos').scrollIntoView({ behavior: 'smooth' });
+    const produtosSection = document.getElementById('produtos');
+    if (produtosSection) {
+        produtosSection.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 // Enviar mensagem de contato
@@ -205,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('click', function (event) {
         const modal = document.getElementById('modalCarrinho');
-        if (event.target == modal) {
+        if (modal && event.target == modal) {
             modal.style.display = 'none';
         }
     });
