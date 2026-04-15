@@ -249,3 +249,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+// ========== HEADER QUE ESCONDE AO ROLAR ==========
+let lastScrollTop = 0;
+const header = document.querySelector('header');
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Verifica se o usuário está rolando para baixo
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Rolando para baixo - esconde o header
+        header.classList.add('hide');
+    } else {
+        // Rolando para cima - mostra o header
+        header.classList.remove('hide');
+    }
+    
+    // Header compacto quando rolar um pouco
+    if (scrollTop > 50) {
+        header.classList.add('compact');
+    } else {
+        header.classList.remove('compact');
+    }
+    
+    lastScrollTop = scrollTop;
+});
