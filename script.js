@@ -10,13 +10,18 @@ const produtos = [
     { id: 8,  nome: 'Forminha Verde Menta',        cor: 'verde',      preco: 13.90, fotos: ['img/verde-menta-1.jpg',   'img/verde-menta-2.jpg'],   descricao: 'Forminha artesanal verde menta' },
     { id: 9,  nome: 'Forminha Branca Pura',        cor: 'branco',     preco: 11.90, fotos: ['img/branca-pura-1.jpg',   'img/branca-pura-2.jpg'],   descricao: 'Forminha artesanal branca pura' },
     { id: 10, nome: 'Forminha Multicolor Premium', cor: 'multicolor', preco: 15.90, fotos: ['img/multi-1.jpg',         'img/multi-2.jpg'],         descricao: 'Forminha artesanal multicolor premium' },
-    { id: 1, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.png', 'azul.bebe.png'],           descricao: 'Forminha de seda na cor azul bebê' },
-    { id: 2, nome: 'Forminha Azul Claro',         cor: 'azul',       preco: 12.90, fotos: ['azul claro.png', 'azul.claro.png'],         descricao: 'Forminha de seda na cor azul claro' },
-    { id: 3, nome: 'Forminha Azul Escuro',        cor: 'azul',       preco: 13.90, fotos: ['azul escuro.png', 'azul.escuro.png'],       descricao: 'Forminha de seda na cor azul escuro' },
-    { id: 4, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.png', 'azul.marinho.png'],     descricao: 'Forminha de seda na cor azul marinho' },
-    { id: 5, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.png', 'azul.petroleo.png'],   descricao: 'Forminha de seda na cor azul petróleo' },
-    { id: 6, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.png', 'azul.serenity.png'],   descricao: 'Forminha de seda na cor azul serenity' },
-    { id: 7, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.png', 'azul.tiffany.png'],     descricao: 'Forminha de seda na cor azul tiffany' },
+    { id: 11, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.png', 'azul.bebe.png'],           descricao: 'Forminha de seda na cor azul bebê' },
+    { id: 12, nome: 'Forminha Azul Claro',         cor: 'azul',       preco: 12.90, fotos: ['azul claro.png', 'azul.claro.png'],         descricao: 'Forminha de seda na cor azul claro' },
+    { id: 13, nome: 'Forminha Azul Escuro',        cor: 'azul',       preco: 13.90, fotos: ['azul escuro.png', 'azul.escuro.png'],       descricao: 'Forminha de seda na cor azul escuro' },
+    { id: 14, nome: 'Forminha Azul Marinho',       cor: 'azul',       preco: 13.90, fotos: ['azul marinho.png', 'azul.marinho.png'],     descricao: 'Forminha de seda na cor azul marinho' },
+    { id: 15, nome: 'Forminha Azul Petróleo',      cor: 'azul',       preco: 14.90, fotos: ['azul petroleo.png', 'azul.petroleo.png'],   descricao: 'Forminha de seda na cor azul petróleo' },
+    { id: 16, nome: 'Forminha Azul Serenity',      cor: 'azul',       preco: 13.90, fotos: ['azul serenity.png', 'azul.serenity.png'],   descricao: 'Forminha de seda na cor azul serenity' },
+    { id: 17, nome: 'Forminha Azul Tiffany',       cor: 'azul',       preco: 14.90, fotos: ['azul tiffany.png', 'azul.tiffany.png'],     descricao: 'Forminha de seda na cor azul tiffany' },
+    { id: 18, nome: 'Forminha Lilás',       cor: 'roxo',       preco: 14.90, fotos: ['lilas comum.png', 'lilas.comum.png'],     descricao: 'Forminha de seda na cor lilás' },
+    { id: 19, nome: 'Forminha Roxa',       cor: 'roxo',       preco: 14.90, fotos: ['roxo comum.png', 'roxo.comum.png'],     descricao: 'Forminha de seda na cor roxa' },
+    { id: 20, nome: 'Forminha Lilás Claro',       cor: 'roxo',       preco: 14.90, fotos: ['lilas claro.png', 'lilas.claro.png'],     descricao: 'Forminha de seda na cor lilás claro' },
+    { id: 21, nome: 'Forminha Lilás Escuro',       cor: 'roxo',       preco: 14.90, fotos: ['lilas escuro.png', 'lilas.escuro.png'],     descricao: 'Forminha de seda na cor lilás escuro' },
+
 ];
 
 // Cores para exibição
@@ -25,6 +30,7 @@ const coresInfo = {
     verde:      { nome: 'Verde',      hex: '#C8E6C9' },
     branco:     { nome: 'Branco',     hex: '#FFFFFF' },
     azul:       { nome: 'Azul',       hex: '#90CAF9' },
+    roxo:       { nome: 'Roxo',       hex: '#9a62da' },
     multicolor: { nome: 'Multicolor', hex: 'linear-gradient(135deg, #FFB6D9 0%, #C8E6C9 100%)' }
 };
 
