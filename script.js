@@ -1,3 +1,4 @@
+Object.freeze(coresInfo);
 // Dados dos produtos
 const produtos = [
     { id: 1, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.png', 'azul.bebe.png'], descricao: 'Forminha de seda na cor azul bebê' },
@@ -27,8 +28,7 @@ const produtos = [
     { id: 25, nome: 'Forminha Rosa Bebê',         cor: 'rosa',       preco: 14.90, fotos: ['rosa bebe.png', 'rosa bebe cor.png'], descricao: 'Forminha de seda na cor Rosa Bebê' },
     { id: 26, nome: 'Forminha Pérola',            cor: 'terrosos',   preco: 14.90, fotos: ['perola.png', 'perola cor.png'], descricao: 'Forminha de seda na cor Pérola' },
     { id: 27, nome: 'Forminha Goiaba',            cor: 'rosa',       preco: 14.90, fotos: ['goiaba.png', 'goiaba cor.png'], descricao: 'Forminha de seda na cor Goiaba' },
-    { id: 28, nome: 'Forminha Nude',              cor: 'terroso',    preco: 14.90, fotos: ['nude.png', 'nude cor.png'], descricao: 'Forminha de seda na cor Nude' },
-];
+    { id: 28, nome: 'Forminha Nude', cor: 'terrosos', preco: 14.90, fotos: ['nude.png', 'nude cor.png'], descricao: 'Forminha de seda na cor Nude' },];
 
 // Cores para exibição
 const coresInfo = {
@@ -68,18 +68,28 @@ function renderizarProdutos(filtro = 'todas') {
         ? produtos
         : produtos.filter(p => p.cor === filtro);
 
-    produtosFiltrados.forEach(produto => {
-        const card = document.createElement('div');
-        card.className = 'card-produto';
 
-        const fotosHTML = produto.fotos.map((foto, i) => `
-            <img
-                src="${foto}"
-                alt="${produto.nome} - foto ${i + 1}"
-                class="slide-foto ${i === 0 ? 'ativo' : ''}"
-                onerror="this.style.display='none'"
-            >
-        `).join('');
+produtosFiltrados.forEach(produto => {
+    const card = document.createElement('div');
+    card.className = 'card-produto';
+
+    // ✅ PROTEÇÃO CONTRA COR INVÁLIDA
+    const corInfo = coresInfo[produto.cor] || {
+        nome: 'Indefinida',
+        hex: '#ccc'
+    };
+
+    const fotosHTML = produto.fotos.map((foto, i) => `
+        <img
+            src="${foto}"
+            alt="${produto.nome} - foto ${i + 1}"
+            class="slide-foto ${i === 0 ? 'ativo' : ''}"
+            onerror="
+                this.style.display='none';
+                this.parentElement.querySelector('.placeholder-foto').style.display='flex';
+            "
+        >
+    `).join('');
 
         const temMultiplasFotos = produto.fotos.length > 1;
 
@@ -100,9 +110,9 @@ function renderizarProdutos(filtro = 'todas') {
                 <p style="font-size: 12px; color: #999;">${produto.descricao}</p>
                 <div class="card-produto-cor">
                     <span>Cor:</span>
-                    <div class="cor-circle" style="background: ${coresInfo[produto.cor].hex}; border: 1px solid #ddd;"></div>
-                    <span>${coresInfo[produto.cor].nome}</span>
-                </div>
+                    <div class="cor-circle" style="background: ${corInfo.hex}; border: 1px solid #ddd;"></div>
+                    <span>${corInfo.nome}</span>
+                                    </div>
                 <div class="card-produto-preco">R$ ${produto.preco.toFixed(2)}</div>
                 <button class="btn-adicionar" onclick="adicionarAoCarrinho(${produto.id})">
                     Adicionar ao Carrinho
