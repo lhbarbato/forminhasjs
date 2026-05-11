@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forminhas JS - Forminhas Artesanais de Seda</title>
+    <title>Forminhas JS — Forminhas Artesanais de Seda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER - VERSÃO COMPACTA -->
-    <header>
-        <div class="container">
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="header-inner">
+            <div class="header-deco">✦</div>
             <div class="logo">
-                <h1>🧁 Forminhas para Doces JS</h1>
+                <span class="logo-script">Forminhas</span>
+                <span class="logo-serif">JS</span>
                 <p class="tagline">Forminhas Artesanais em Papel de Seda</p>
             </div>
             <nav>
                 <ul>
                     <li><a href="#inicio">Início</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#produtos">Produtos</a></li>
                     <li><a href="#contato">Contato</a></li>
-                    <li class="carrinho-nav">
-                        <a href="#" onclick="mostrarCarrinho()">
-                            🛒 Carrinho 
-                            <span id="contadorCarrinhoNav" class="carrinho-contador">0</span>
+                    <li>
+                        <a href="#" class="nav-cart" onclick="mostrarCarrinho(); return false;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                            <span id="contadorCarrinhoNav" class="cart-badge">0</span>
                         </a>
                     </li>
                 </ul>
@@ -30,34 +37,90 @@
         </div>
     </header>
 
-    <!-- BANNER PRINCIPAL -->
-    <section id="inicio" class="banner">
-        <div class="banner-content">
-            <h2>Forminhas Artesanais Feitas em Papel de Seda</h2>
-            <p>Lindas, resistentes e perfeitas para seus doces especiais</p>
-            <button class="btn-primary" onclick="scrollToProducts()">Ver Produtos</button>
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+        <div class="hero-bg">
+            <div class="petal petal-1">❀</div>
+            <div class="petal petal-2">✿</div>
+            <div class="petal petal-3">❁</div>
+            <div class="petal petal-4">✾</div>
+            <div class="petal petal-5">❀</div>
+            <div class="petal petal-6">✿</div>
+        </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Feitas com amor &amp; delicadeza</p>
+            <h1 class="hero-title">
+                Forminhas Artesanais<br>
+                <em>em Papel de Seda</em>
+            </h1>
+            <p class="hero-sub">Lindas, resistentes e perfeitas para tornar seus doces ainda mais especiais</p>
+            <div class="hero-actions">
+                <button class="btn-hero" onclick="scrollToProducts()">Ver Coleção</button>
+                <span class="hero-divider">·</span>
+                <a href="#contato" class="btn-hero-ghost">Fale Conosco</a>
+            </div>
+        </div>
+        <div class="hero-ornament">
+            <svg viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg" class="wave-divider">
+                <path d="M0,30 C50,10 100,50 150,30 C200,10 250,50 300,30 C350,10 380,40 400,30" fill="none" stroke="#ECC5C6" stroke-width="1" opacity="0.5"/>
+                <path d="M0,38 C50,18 100,58 150,38 C200,18 250,58 300,38 C350,18 380,48 400,38" fill="none" stroke="#8A9DB1" stroke-width="0.7" opacity="0.4"/>
+            </svg>
         </div>
     </section>
 
-    <!-- DESCRIÇÃO -->
-    <section class="descricao">
+    <!-- SOBRE -->
+    <section id="sobre" class="sobre">
+        <div class="sobre-deco-left">
+            <svg width="120" height="300" viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" opacity="0.12">
+                <path d="M60,10 Q90,40 60,70 Q30,100 60,130 Q90,160 60,190 Q30,220 60,250 Q90,280 60,295" fill="none" stroke="#ECC5C6" stroke-width="1.5"/>
+                <circle cx="60" cy="10" r="4" fill="#ECC5C6"/>
+                <circle cx="60" cy="70" r="3" fill="#ECC5C6"/>
+                <circle cx="60" cy="130" r="4" fill="#ECC5C6"/>
+                <circle cx="60" cy="190" r="3" fill="#ECC5C6"/>
+                <circle cx="60" cy="250" r="4" fill="#ECC5C6"/>
+            </svg>
+        </div>
         <div class="container">
-            <h2>Por que escolher Forminhas JS?</h2>
-            <div class="features">
-                <div class="feature">
-                    <span class="icon">✨</span>
-                    <h3>Artesanais</h3>
-                    <p>Feitas com cuidado e atenção aos detalhes</p>
+            <div class="sobre-grid">
+                <div class="sobre-texto">
+                    <p class="section-eyebrow">Nossa história</p>
+                    <h2 class="section-title">Por que escolher<br><em>Forminhas JS?</em></h2>
+                    <p class="sobre-desc">Cada forminha é dobrada à mão com papel de seda selecionado, pensando nos mínimos detalhes para que seus doces ganhem o charme e a elegância que merecem.</p>
+                    <div class="pilares">
+                        <div class="pilar">
+                            <span class="pilar-icon">✦</span>
+                            <div>
+                                <h3>Artesanais</h3>
+                                <p>Feitas com cuidado e atenção a cada dobra</p>
+                            </div>
+                        </div>
+                        <div class="pilar">
+                            <span class="pilar-icon">✦</span>
+                            <div>
+                                <h3>Coloridas</h3>
+                                <p>Vasta paleta para combinar com qualquer festa</p>
+                            </div>
+                        </div>
+                        <div class="pilar">
+                            <span class="pilar-icon">✦</span>
+                            <div>
+                                <h3>Funcionais</h3>
+                                <p>Um charme delicado à mesa da sua celebração</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="feature">
-                    <span class="icon">🎨</span>
-                    <h3>Coloridas</h3>
-                    <p>Várias opções de cores para combinar com seu estilo</p>
-                </div>
-                <div class="feature">
-                    <span class="icon">🌸</span>
-                    <h3>Funcionais e decorativas</h3>
-                    <p>Um charme a mais para a mesa da festa</p>
+                <div class="sobre-visual">
+                    <div class="sobre-card-grande">
+                        <div class="sobre-img-placeholder">
+                            <span>🧁</span>
+                            <p>Forminhas JS</p>
+                        </div>
+                    </div>
+                    <div class="sobre-card-pequeno">
+                        <p class="sobre-card-num">21</p>
+                        <p class="sobre-card-label">Cores disponíveis</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,12 +128,16 @@
 
     <!-- PRODUTOS -->
     <section id="produtos" class="produtos">
+        <div class="produtos-topo-deco">
+            <span>— ✦ —</span>
+        </div>
         <div class="container">
-            <h2>Nossas Cores Disponíveis</h2>
-            <p class="subtitulo">Escolha a cor que mais combina com a sua festa!</p>
-            
+            <p class="section-eyebrow" style="text-align:center">Nossa Coleção</p>
+            <h2 class="section-title" style="text-align:center">Escolha sua cor favorita</h2>
+            <p class="section-sub">Cada tonalidade conta uma história. Qual será a da sua festa?</p>
+
             <div class="filtro-cores">
-                <button class="btn-filtro active" data-filtro="todas">Todas as Cores</button>
+                <button class="btn-filtro active" data-filtro="todas">Todas</button>
                 <button class="btn-filtro" data-filtro="azul">Azul</button>
                 <button class="btn-filtro" data-filtro="rosa">Rosa</button>
                 <button class="btn-filtro" data-filtro="roxo">Roxo</button>
@@ -79,50 +146,110 @@
                 <button class="btn-filtro" data-filtro="multicolor">Multicolor</button>
             </div>
 
-            <div class="grid-produtos" id="gridProdutos">
-                <!-- Os produtos serão inseridos aqui pelo JavaScript -->
-            </div>
+            <div class="grid-produtos" id="gridProdutos"></div>
         </div>
     </section>
+
+    <!-- FAIXA DESTAQUE -->
+    <div class="faixa-seda">
+        <div class="faixa-inner">
+            <span>Papel de Seda Selecionado</span>
+            <span class="faixa-dot">✦</span>
+            <span>Feitas à Mão</span>
+            <span class="faixa-dot">✦</span>
+            <span>Entrega para Todo o Brasil</span>
+            <span class="faixa-dot">✦</span>
+            <span>Encanta qualquer celebração</span>
+            <span class="faixa-dot">✦</span>
+            <span>Papel de Seda Selecionado</span>
+            <span class="faixa-dot">✦</span>
+            <span>Feitas à Mão</span>
+            <span class="faixa-dot">✦</span>
+            <span>Entrega para Todo o Brasil</span>
+            <span class="faixa-dot">✦</span>
+            <span>Encanta qualquer celebração</span>
+            <span class="faixa-dot">✦</span>
+        </div>
+    </div>
 
     <!-- CONTATO -->
     <section id="contato" class="contato">
         <div class="container">
-            <h2>Entre em Contato</h2>
-            <div class="contato-content">
+            <div class="contato-grid">
                 <div class="contato-info">
-                    <p><strong>📱 WhatsApp:</strong> (11) 9999-9999</p>
-                    <p><strong>📧 Email:</strong> contato@forminhasjs.com</p>
-                    <p><strong>📍 Localização:</strong> São Paulo - SP</p>
+                    <p class="section-eyebrow">Fale com a gente</p>
+                    <h2 class="section-title">Entre em<br><em>Contato</em></h2>
+                    <p class="contato-desc">Tem dúvidas sobre cores, quantidades ou pedidos especiais? Estamos aqui para ajudar a tornar sua festa ainda mais especial.</p>
+                    <div class="contato-links">
+                        <a class="contato-link" href="https://wa.me/5511999999999" target="_blank">
+                            <span class="contato-link-icon">📱</span>
+                            <span>(11) 9999-9999</span>
+                        </a>
+                        <a class="contato-link" href="mailto:contato@forminhasjs.com">
+                            <span class="contato-link-icon">✉</span>
+                            <span>contato@forminhasjs.com</span>
+                        </a>
+                        <div class="contato-link">
+                            <span class="contato-link-icon">📍</span>
+                            <span>São Paulo — SP</span>
+                        </div>
+                    </div>
                 </div>
-                <form class="contato-form" onsubmit="enviarMensagem(event)">
-                    <input type="text" placeholder="Seu Nome" required>
-                    <input type="email" placeholder="Seu Email" required>
-                    <textarea placeholder="Sua Mensagem" rows="5" required></textarea>
-                    <button type="submit" class="btn-primary">Enviar Mensagem</button>
-                </form>
+                <div class="contato-form-wrap">
+                    <form class="contato-form" onsubmit="enviarMensagem(event)">
+                        <div class="form-group">
+                            <label>Seu Nome</label>
+                            <input type="text" placeholder="Como podemos te chamar?" required>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" placeholder="seu@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mensagem</label>
+                            <textarea placeholder="Conte sobre sua festa, cores desejadas, quantidade..." rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Enviar Mensagem</button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Forminhas JS - Todos os direitos reservados</p>
-            <p>Feito com ❤️ para seus doces especiais</p>
+        <div class="footer-ornament">✦ ✦ ✦</div>
+        <div class="container footer-inner">
+            <div class="footer-logo">
+                <span class="logo-script" style="font-size:28px">Forminhas JS</span>
+                <p>Forminhas Artesanais em Papel de Seda</p>
+            </div>
+            <div class="footer-links">
+                <a href="#inicio">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#produtos">Produtos</a>
+                <a href="#contato">Contato</a>
+            </div>
         </div>
+        <p class="footer-copy">© 2026 Forminhas JS · Feito com ❤️ para seus doces especiais</p>
     </footer>
 
     <!-- MODAL DO CARRINHO -->
     <div id="modalCarrinho" class="modal">
         <div class="modal-content">
-            <span class="fechar" onclick="fecharCarrinho()">&times;</span>
-            <h2>Seu Carrinho</h2>
-            <div id="listaCarrinho"></div>
-            <div class="total">
-                <strong>Total: R$ <span id="totalCarrinho">0.00</span></strong>
+            <button class="fechar" onclick="fecharCarrinho()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="modal-header">
+                <span class="modal-eyebrow">✦</span>
+                <h2>Seu Carrinho</h2>
             </div>
-            <button class="btn-primary" style="width: 100%; margin-top: 20px;" onclick="irParaCheckout()">Finalizar Compra</button>
+            <div id="listaCarrinho"></div>
+            <div class="modal-total">
+                <span>Total</span>
+                <strong>R$ <span id="totalCarrinho">0,00</span></strong>
+            </div>
+            <button class="btn-primary btn-checkout" onclick="irParaCheckout()">Finalizar Compra</button>
         </div>
     </div>
 
