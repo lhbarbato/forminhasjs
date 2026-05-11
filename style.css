@@ -5,10 +5,12 @@
 }
 
 :root {
-    --rosa: #BFD99C;
-    --verde: #A2D9AE;
+    --rosa: #ECC5C6;
+    --verde: #8A9DB1;
     --branco: #FFFFFF;
-    --cinza-claro: #DCDDDA;
+    --fundo: #F5E9E7;
+    --cinza-claro: #C1C0C2;
+    --cinza-medio: #837D68;
     --cinza-escuro: #333333;
     --preto: #000000;
 }
@@ -17,7 +19,7 @@ body {
     font-family: 'Georgia', 'Garamond', serif;
     line-height: 1.8;
     color: var(--cinza-escuro);
-    background-color: var(--branco);
+    background-color: var(--fundo);
     letter-spacing: 0.5px;
     padding-top: 70px;
 }
@@ -30,11 +32,11 @@ body {
 
 /* ========== HEADER QUE ESCONDE AO ROLAR ========== */
 header {
-    background: #FFFFFF;
+    background: var(--fundo);
     padding: 12px 0;
     border-bottom: 2px solid;
     border-image: linear-gradient(135deg, var(--rosa) 0%, var(--verde) 100%) 1;
-    box-shadow: 0 2px 10px rgba(255, 182, 217, 0.1);
+    box-shadow: 0 2px 10px rgba(140, 100, 100, 0.08);
     position: fixed;
     top: 0;
     width: 100%;
@@ -84,7 +86,7 @@ header .container {
 
 .tagline {
     font-size: 11px;
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
     margin-top: 5px;
     font-style: italic;
     letter-spacing: 1px;
@@ -142,7 +144,7 @@ nav a:hover {
 
 /* ========== BANNER ========== */
 .banner {
-    background: var(--branco);
+    background: var(--fundo);
     padding: 80px 30px;
     text-align: center;
     min-height: 350px;
@@ -163,7 +165,7 @@ nav a:hover {
 
 .banner-content p {
     font-size: 16px;
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
     margin-bottom: 30px;
     font-style: italic;
 }
@@ -185,7 +187,7 @@ nav a:hover {
 }
 
 .btn-primary:hover {
-    box-shadow: 0 8px 20px rgba(191, 217, 156, 0.3);
+    box-shadow: 0 8px 20px rgba(140, 100, 100, 0.2);
     transform: translateY(-2px);
 }
 
@@ -231,7 +233,7 @@ nav a:hover {
 }
 
 .feature {
-    background: var(--branco);
+    background: var(--fundo);
     padding: 40px 30px;
     border: 2px solid var(--cinza-claro);
     text-align: center;
@@ -240,7 +242,7 @@ nav a:hover {
 
 .feature:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(191, 217, 156, 0.2);
+    box-shadow: 0 15px 35px rgba(140, 100, 100, 0.12);
 }
 
 .feature .icon {
@@ -250,7 +252,7 @@ nav a:hover {
 }
 
 .feature h3 {
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
     margin-bottom: 15px;
     font-weight: normal;
     font-size: 20px;
@@ -266,7 +268,7 @@ nav a:hover {
 /* ========== PRODUTOS ========== */
 .produtos {
     padding: 80px 30px;
-    background: var(--branco);
+    background: var(--fundo);
 }
 
 .produtos h2 {
@@ -296,7 +298,7 @@ nav a:hover {
 
 .subtitulo {
     text-align: center;
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
     font-size: 15px;
     margin-bottom: 50px;
     font-style: italic;
@@ -327,12 +329,14 @@ nav a:hover {
 .btn-filtro:hover {
     background: linear-gradient(135deg, var(--rosa) 0%, var(--verde) 100%);
     color: var(--branco);
+    border-color: transparent;
 }
 
 .btn-filtro.active {
     background: linear-gradient(135deg, var(--rosa) 0%, var(--verde) 100%);
     color: var(--branco);
-    box-shadow: 0 5px 15px rgba(191, 217, 156, 0.3);
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(140, 100, 100, 0.18);
 }
 
 /* ========== GRID DE PRODUTOS RESPONSIVO ========== */
@@ -389,7 +393,7 @@ nav a:hover {
     background: var(--branco);
     border: 2px solid var(--cinza-claro);
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
     transition: 0.4s;
     display: flex;
     flex-direction: column;
@@ -399,7 +403,7 @@ nav a:hover {
 .card-produto:hover {
     transform: translateY(-5px);
     border-color: var(--rosa);
-    box-shadow: 0 15px 40px rgba(191, 217, 156, 0.25);
+    box-shadow: 0 15px 40px rgba(140, 100, 100, 0.15);
 }
 
 .card-galeria {
@@ -407,7 +411,7 @@ nav a:hover {
     width: 100%;
     height: 220px;
     overflow: hidden;
-    background: #f9f9f9;
+    background: var(--fundo);
     flex-shrink: 0;
 }
 
@@ -443,7 +447,7 @@ nav a:hover {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(245, 233, 231, 0.9);
     border: none;
     border-radius: 50%;
     width: 30px;
@@ -454,6 +458,7 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--cinza-medio);
 }
 
 .seta-esq {
@@ -483,7 +488,7 @@ nav a:hover {
 }
 
 .dot.ativo {
-    background: #FF69B4;
+    background: var(--rosa);
 }
 
 .card-produto-corpo {
@@ -517,7 +522,7 @@ nav a:hover {
 
 .card-produto-descricao {
     font-size: 12px;
-    color: #999;
+    color: var(--cinza-claro);
     margin-bottom: 12px;
     font-style: italic;
 }
@@ -535,7 +540,7 @@ nav a:hover {
     gap: 8px;
     margin: 10px 0;
     font-size: 12px;
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
 }
 
 .cor-circle {
@@ -647,7 +652,7 @@ nav a:hover {
     border: 2px solid var(--cinza-claro);
     font-family: 'Georgia', serif;
     font-size: 13px;
-    background: var(--branco);
+    background: var(--fundo);
 }
 
 .contato-form input:focus,
@@ -680,7 +685,7 @@ footer p {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(51, 51, 51, 0.5);
 }
 
 .modal-content {
@@ -695,14 +700,22 @@ footer p {
 .modal-content h2 {
     text-align: center;
     margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--rosa) 0%, var(--verde) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .fechar {
-    color: var(--cinza-escuro);
+    color: var(--cinza-medio);
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.fechar:hover {
+    color: var(--rosa);
 }
 
 #listaCarrinho {
@@ -719,11 +732,16 @@ footer p {
     border-bottom: 1px solid var(--cinza-claro);
 }
 
+.item-carrinho button {
+    background: var(--cinza-medio) !important;
+}
+
 .total {
     text-align: right;
     padding: 15px;
     font-size: 18px;
     font-weight: bold;
+    color: var(--cinza-medio);
 }
 
 /* ========== RESPONSIVO GERAL ========== */
