@@ -1,4 +1,3 @@
-Object.freeze(coresInfo);
 // Dados dos produtos
 const produtos = [
     { id: 1, nome: 'Forminha Azul Bebê',          cor: 'azul',       preco: 12.90, fotos: ['azul bebe.png', 'azul.bebe.png'], descricao: 'Forminha de seda na cor azul bebê' },
@@ -15,20 +14,21 @@ const produtos = [
     { id: 12, nome: 'Forminha Preta',             cor: 'terrosos',   preco: 14.90, fotos: ['preto.png', 'preto cor.png'], descricao: 'Forminha de seda na cor preta' },
     { id: 13, nome: 'Forminha Pessêgo',           cor: 'laranja',    preco: 14.90, fotos: ['pessego.png', 'pessego cor.png'], descricao: 'Forminha de seda na cor pessêgo' },
     { id: 14, nome: 'Forminha Laranja',           cor: 'laranja',    preco: 14.90, fotos: ['laranja.png', 'laranja cor.png'], descricao: 'Forminha de seda na cor Laranja' },
-    { id: 15, nome: 'Forminha Bege',              cor: 'terrosos',   preco: 14.90, fotos: ['bege.png', 'bege cor.png'], descricao: 'Forminha de seda na cor bege' },
-    { id: 16, nome: 'Forminha Laranja Claro',     cor: 'laranja',    preco: 14.90, fotos: ['laranja claro.png', 'laranja claro cor.png'], descricao: 'Forminha de seda na cor Laranja Claro' },
-    { id: 17, nome: 'Forminha Amarelo Bebê',      cor: 'amarelo',    preco: 14.90, fotos: ['amarelo bebe.png', 'amarelo bebe cor.png'], descricao: 'Forminha de seda na cor Amarelo Bebê' },
-    { id: 18, nome: 'Forminha Marfim',            cor: 'terrosos',   preco: 14.90, fotos: ['marfim.png', 'marfim cor.png'], descricao: 'Forminha de seda na cor Marfim' },
-    { id: 19, nome: 'Forminha Coral',             cor: 'terrosos',   preco: 14.90, fotos: ['coral.png', 'coral cor.png'], descricao: 'Forminha de seda na cor Coral' },
-    { id: 20, nome: 'Forminha Amarelo',           cor: 'amarelo',    preco: 14.90, fotos: ['amarelo.png', 'amarelo cor.png'], descricao: 'Forminha de seda na cor Amarelo' },
-    { id: 21, nome: 'Forminha Off White',         cor: 'terrosos',   preco: 14.90, fotos: ['off white.png', 'off white cor.png'], descricao: 'Forminha de seda na cor Off White' },
-    { id: 22, nome: 'Forminha Champanhe',         cor: 'terrosos',   preco: 14.90, fotos: ['champanhe.png', 'champanhe cor.png'], descricao: 'Forminha de seda na cor Champanhe' },
-    { id: 23, nome: 'Forminha Branca',            cor: 'terrosos',   preco: 14.90, fotos: ['branco.png', 'branco cor.png'], descricao: 'Forminha de seda na cor Branca' },
-    { id: 24, nome: 'Forminha Canelinha',         cor: 'terrosos',   preco: 14.90, fotos: ['canelinha.png', 'canelinha cor.png'], descricao: 'Forminha de seda na cor Canelinha' },
-    { id: 25, nome: 'Forminha Rosa Bebê',         cor: 'rosa',       preco: 14.90, fotos: ['rosa bebe.png', 'rosa bebe cor.png'], descricao: 'Forminha de seda na cor Rosa Bebê' },
-    { id: 26, nome: 'Forminha Pérola',            cor: 'terrosos',   preco: 14.90, fotos: ['perola.png', 'perola cor.png'], descricao: 'Forminha de seda na cor Pérola' },
-    { id: 27, nome: 'Forminha Goiaba',            cor: 'rosa',       preco: 14.90, fotos: ['goiaba.png', 'goiaba cor.png'], descricao: 'Forminha de seda na cor Goiaba' },
-    { id: 28, nome: 'Forminha Nude', cor: 'terrosos', preco: 14.90, fotos: ['nude.png', 'nude cor.png'], descricao: 'Forminha de seda na cor Nude' },];
+    { id: 15, nome: 'Forminha Bege',              cor: 'terrosos',   preco: 14.90, fotos: ['bege.jpg', 'bege cor.png'], descricao: 'Forminha de seda na cor bege' },
+    { id: 16, nome: 'Forminha Laranja Claro',     cor: 'laranja',    preco: 14.90, fotos: ['laranja claro.jpg', 'laranja claro cor.png'], descricao: 'Forminha de seda na cor Laranja Claro' },
+    { id: 17, nome: 'Forminha Amarelo Bebê',      cor: 'amarelo',    preco: 14.90, fotos: ['amarelo bebe.jpg', 'amarelo bebe cor.png'], descricao: 'Forminha de seda na cor Amarelo Bebê' },
+    { id: 18, nome: 'Forminha Marfim',            cor: 'terrosos',   preco: 14.90, fotos: ['marfim.jpg', 'marfim cor.png'], descricao: 'Forminha de seda na cor Marfim' },
+    { id: 19, nome: 'Forminha Coral',             cor: 'terrosos',   preco: 14.90, fotos: ['coral.jpg', 'coral cor.png'], descricao: 'Forminha de seda na cor Coral' },
+    { id: 20, nome: 'Forminha Amarelo',           cor: 'amarelo',    preco: 14.90, fotos: ['amarelo.jpg', 'amarelo cor.png'], descricao: 'Forminha de seda na cor Amarelo' },
+    { id: 21, nome: 'Forminha Off White',         cor: 'terrosos',   preco: 14.90, fotos: ['off white.jpg', 'off white cor.png'], descricao: 'Forminha de seda na cor Off White' },
+    { id: 22, nome: 'Forminha Champanhe',         cor: 'terrosos',   preco: 14.90, fotos: ['champanhe.jpg', 'champanhe cor.png'], descricao: 'Forminha de seda na cor Champanhe' },
+    { id: 23, nome: 'Forminha Branca',            cor: 'terrosos',   preco: 14.90, fotos: ['branco.jpg', 'branco cor.png'], descricao: 'Forminha de seda na cor Branca' },
+    { id: 24, nome: 'Forminha Canelinha',         cor: 'terrosos',   preco: 14.90, fotos: ['canelinha.jpg', 'canelinha cor.png'], descricao: 'Forminha de seda na cor Canelinha' },
+    { id: 25, nome: 'Forminha Rosa Bebê',         cor: 'rosa',       preco: 14.90, fotos: ['rosa bebe.jpg', 'rosa bebe cor.png'], descricao: 'Forminha de seda na cor Rosa Bebê' },
+    { id: 26, nome: 'Forminha Pérola',            cor: 'terrosos',   preco: 14.90, fotos: ['perola.jpg', 'perola cor.png'], descricao: 'Forminha de seda na cor Pérola' },
+    { id: 27, nome: 'Forminha Goiaba',            cor: 'rosa',       preco: 14.90, fotos: ['goiaba.jpg', 'goiaba cor.png'], descricao: 'Forminha de seda na cor Goiaba' },
+    { id: 28, nome: 'Forminha Nude',              cor: 'terroso',    preco: 14.90, fotos: ['nude.jpg', 'nude cor.png'], descricao: 'Forminha de seda na cor Nude' },
+];
 
 // Cores para exibição
 const coresInfo = {
@@ -68,28 +68,18 @@ function renderizarProdutos(filtro = 'todas') {
         ? produtos
         : produtos.filter(p => p.cor === filtro);
 
+    produtosFiltrados.forEach(produto => {
+        const card = document.createElement('div');
+        card.className = 'card-produto';
 
-produtosFiltrados.forEach(produto => {
-    const card = document.createElement('div');
-    card.className = 'card-produto';
-
-    // ✅ PROTEÇÃO CONTRA COR INVÁLIDA
-    const corInfo = coresInfo[produto.cor] || {
-        nome: 'Indefinida',
-        hex: '#ccc'
-    };
-
-    const fotosHTML = produto.fotos.map((foto, i) => `
-        <img
-            src="${foto}"
-            alt="${produto.nome} - foto ${i + 1}"
-            class="slide-foto ${i === 0 ? 'ativo' : ''}"
-            onerror="
-                this.style.display='none';
-                this.parentElement.querySelector('.placeholder-foto').style.display='flex';
-            "
-        >
-    `).join('');
+        const fotosHTML = produto.fotos.map((foto, i) => `
+            <img
+                src="${foto}"
+                alt="${produto.nome} - foto ${i + 1}"
+                class="slide-foto ${i === 0 ? 'ativo' : ''}"
+                onerror="this.style.display='none'"
+            >
+        `).join('');
 
         const temMultiplasFotos = produto.fotos.length > 1;
 
@@ -110,9 +100,9 @@ produtosFiltrados.forEach(produto => {
                 <p style="font-size: 12px; color: #999;">${produto.descricao}</p>
                 <div class="card-produto-cor">
                     <span>Cor:</span>
-                    <div class="cor-circle" style="background: ${corInfo.hex}; border: 1px solid #ddd;"></div>
-                    <span>${corInfo.nome}</span>
-                                    </div>
+                    <div class="cor-circle" style="background: ${coresInfo[produto.cor].hex}; border: 1px solid #ddd;"></div>
+                    <span>${coresInfo[produto.cor].nome}</span>
+                </div>
                 <div class="card-produto-preco">R$ ${produto.preco.toFixed(2)}</div>
                 <button class="btn-adicionar" onclick="adicionarAoCarrinho(${produto.id})">
                     Adicionar ao Carrinho
