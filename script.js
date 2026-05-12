@@ -18,7 +18,7 @@ const produtos = [
     { id: 16, nome: 'Forminha Laranja Claro',     cor: 'laranja',    preco: 14.90, fotos: ['laranja claro.jpg', 'laranja claro cor.png'], descricao: 'Forminha de seda na cor laranja claro' },
     { id: 17, nome: 'Forminha Amarelo Bebê',      cor: 'amarelo',    preco: 14.90, fotos: ['amarelo bebe.jpg', 'amarelo bebe cor.png'], descricao: 'Forminha de seda na cor amarelo bebê' },
     { id: 18, nome: 'Forminha Marfim',            cor: 'terrosos',   preco: 14.90, fotos: ['marfim.jpg', 'marfim cor.png'], descricao: 'Forminha de seda na cor marfim' },
-    { id: 19, nome: 'Forminha Coral',             cor: 'terrosos',   preco: 14.90, fotos: ['coral.jpg', 'coral cor.png'], descricao: 'Forminha de seda na cor coral' },
+    { id: 19, nome: 'Forminha Coral',             cor: 'laranja',   preco: 14.90, fotos: ['coral.jpg', 'coral cor.png'], descricao: 'Forminha de seda na cor coral' },
     { id: 20, nome: 'Forminha Amarelo',           cor: 'amarelo',    preco: 14.90, fotos: ['amarelo.jpg', 'amarelo cor.png'], descricao: 'Forminha de seda na cor amarelo' },
     { id: 21, nome: 'Forminha Off White',         cor: 'terrosos',   preco: 14.90, fotos: ['off white.jpg', 'off white cor.png'], descricao: 'Forminha de seda na cor off white' },
     { id: 22, nome: 'Forminha Champanhe',         cor: 'terrosos',   preco: 14.90, fotos: ['champanhe.jpg', 'champanhe cor.png'], descricao: 'Forminha de seda na cor champanhe' },

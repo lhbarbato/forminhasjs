@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forminhas JS — Entrar / Cadastrar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --rosa:    #ECC5C6;
+            --rosa-md: #E0A4A6;
+            --creme:   #FDF8F4;
+            --escuro:  #3A2E2E;
+            --muted:   #8C7B7B;
+            --branco:  #FFFFFF;
+            --erro:    #c0392b;
+            --sucesso: #2e7d5e;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--creme);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .bg-petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+        .petal {
+            position: absolute; color: var(--rosa); opacity: 0.15;
+            animation: floatPetal linear infinite alternate; user-select: none;
+        }
+        .petal:nth-child(1) { left:5%;  top:10%; font-size:32px; animation-duration:8s; }
+        .petal:nth-child(2) { left:85%; top:20%; font-size:20px; animation-duration:10s; animation-delay:2s; }
+        .petal:nth-child(3) { left:15%; top:70%; font-size:28px; animation-duration:7s;  animation-delay:1s; }
+        .petal:nth-child(4) { left:75%; top:60%; font-size:22px; animation-duration:9s;  animation-delay:3s; }
+        .petal:nth-child(5) { left:50%; top:5%;  font-size:18px; animation-duration:11s; animation-delay:4s; }
+        .petal:nth-child(6) { left:92%; top:80%; font-size:30px; animation-duration:8s;  animation-delay:1.5s; }
+        @keyframes floatPetal {
+            from { transform: translateY(0) rotate(0deg);    opacity: 0.10; }
+            to   { transform: translateY(-20px) rotate(12deg); opacity: 0.22; }
+        }
+
+        .auth-card {
+            position: relative; z-index: 1;
+            background: var(--branco); border-radius: 20px;
+            box-shadow: 0 8px 48px rgba(58,46,46,0.10);
+            width: 100%; max-width: 440px;
+            padding: 48px 40px 40px;
+            border: 1px solid rgba(236,197,198,0.3);
+        }
+
+        .auth-logo { text-align: center; margin-bottom: 8px; }
+        .auth-logo .logo-script {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic; font-weight: 300;
+            font-size: 32px; color: var(--escuro); letter-spacing: 1px;
+        }
+        .auth-logo .logo-serif {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px; color: var(--rosa-md);
+            letter-spacing: 4px; display: block;
+        }
+        .auth-logo .deco {
+            color: var(--rosa-md); font-size: 13px;
+            letter-spacing: 6px; display: block; margin-top: 4px; opacity: 0.7;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(236,197,198,0.4);
+            margin: 28px -40px 0; padding: 0 40px;
+        }
+        .tab-btn {
+            flex: 1; background: none; border: none; padding: 12px 0;
+            font-family: 'Lato', sans-serif; font-size: 13px;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); cursor: pointer; position: relative; transition: color 0.25s;
+        }
+        .tab-btn::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+            height: 2px; background: var(--rosa-md);
+            transform: scaleX(0); transition: transform 0.25s;
+        }
+        .tab-btn.active { color: var(--escuro); }
+        .tab-btn.active::after { transform: scaleX(1); }
+
+        .form-panel { display: none; padding-top: 32px; }
+        .form-panel.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-deco { text-align:center; color:var(--rosa-md); font-size:11px; letter-spacing:4px; margin-bottom:6px; }
+        .form-titulo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px; font-style: italic;
+            color: var(--escuro); text-align: center; margin-bottom: 24px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-size: 11px; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%; border: 1px solid rgba(236,197,198,0.5);
+            border-radius: 8px; padding: 12px 16px;
+            font-family: 'Lato', sans-serif; font-size: 14px;
+            color: var(--escuro); background: var(--creme);
+            outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus {
+            border-color: var(--rosa-md);
+            box-shadow: 0 0 0 3px rgba(236,197,198,0.2); background: #fff;
+        }
+        .form-group input.erro { border-color: var(--erro); }
+
+        .msg-erro { font-size: 12px; color: var(--erro); margin-top: 5px; display: none; }
+        .msg-erro.visivel { display: block; }
+
+        .input-wrap { position: relative; }
+        .input-wrap input { padding-right: 44px; }
+        .toggle-senha {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); padding: 0; display: flex; align-items: center;
+        }
+
+        .btn-primary {
+            width: 100%; background: var(--escuro); color: var(--branco);
+            border: none; border-radius: 8px; padding: 14px;
+            font-family: 'Lato', sans-serif; font-size: 12px;
+            letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 8px;
+        }
+        .btn-primary:hover:not(:disabled) { background: #5A3E3E; transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .alerta { border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-bottom: 20px; display: none; }
+        .alerta.erro { background:#fdf0ef; border:1px solid #f5c6c2; color:var(--erro); display:block; }
+        .alerta.ok   { background:#edf7f3; border:1px solid #b2dfc8; color:var(--sucesso); display:block; }
+
+        .forca-barra { height:3px; border-radius:3px; margin-top:8px; background:#eee; transition:all 0.3s; }
+        .forca-texto { font-size:11px; color:var(--muted); margin-top:4px; }
+
+        .voltar { text-align:center; margin-top:28px; padding-top:20px; border-top:1px solid rgba(236,197,198,0.3); }
+        .voltar a { font-size:12px; letter-spacing:1px; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+        .voltar a:hover { color: var(--escuro); }
+
+        .spinner {
+            display: inline-block; width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="bg-petals">
+    <div class="petal">❀</div><div class="petal">✿</div><div class="petal">❁</div>
+    <div class="petal">✾</div><div class="petal">❀</div><div class="petal">✿</div>
+</div>
+
+<div class="auth-card">
+    <div class="auth-logo">
+        <span class="logo-script">Forminhas</span>
+        <span class="logo-serif">JS</span>
+        <span class="deco">✦ ✦ ✦</span>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="trocarAba('login')">Entrar</button>
+        <button class="tab-btn"        onclick="trocarAba('cadastro')">Cadastrar</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="form-panel active" id="painel-login">
+        <p class="form-deco">✦</p>
+        <p class="form-titulo">Bem-vinda de volta</p>
+        <div id="alerta-login" class="alerta"></div>
+
+        <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="login-email" placeholder="seu@email.com">
+            <p class="msg-erro" id="err-login-email">Informe um e-mail válido.</p>
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <div class="input-wrap">
+                <input type="password" id="login-senha" placeholder="••••••••">
+                <button class="toggle-senha" onclick="toggleSenha('login-senha',this)" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <p class="msg-erro" id="err-login-senha">Informe sua senha.</p>
+        </div>
+        <button class="btn-primary" id="btn-login" onclick="fazerLogin()">Entrar</button>
+    </div>
+
+    <!-- CADASTRO -->
+    <div class="form-panel" id="painel-cadastro">
+        <p class="form-deco">✦</p>
+        <p class="form-titulo">Criar sua conta</p>
+        <div id="alerta-cadastro" class="alerta"></div>
+
+        <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="cad-nome" placeholder="Seu nome">
+            <p class="msg-erro" id="err-cad-nome">Informe seu nome.</p>
+        </div>
+        <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="cad-email" placeholder="seu@email.com">
+            <p class="msg-erro" id="err-cad-email">Informe um e-mail válido.</p>
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <div class="input-wrap">
+                <input type="password" id="cad-senha" placeholder="Mínimo 6 caracteres" oninput="verificarForca(this.value)">
+                <button class="toggle-senha" onclick="toggleSenha('cad-senha',this)" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <div class="forca-barra" id="forca-barra"></div>
+            <p class="forca-texto" id="forca-texto"></p>
+            <p class="msg-erro" id="err-cad-senha">Mínimo de 6 caracteres.</p>
+        </div>
+        <div class="form-group">
+            <label>Confirmar senha</label>
+            <div class="input-wrap">
+                <input type="password" id="cad-confirma" placeholder="Repita a senha">
+                <button class="toggle-senha" onclick="toggleSenha('cad-confirma',this)" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+            <p class="msg-erro" id="err-cad-confirma">As senhas não coincidem.</p>
+        </div>
+        <button class="btn-primary" id="btn-cadastro" onclick="fazerCadastro()">Criar Conta</button>
+    </div>
+
+    <div class="voltar"><a href="index.html">← Voltar para a loja</a></div>
+</div>
+
+<!-- Firebase SDK (via CDN, sem npm) -->
+<script type="module">
+    import { initializeApp }                                   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword,
+             signInWithEmailAndPassword, updateProfile,
+             onAuthStateChanged }                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // ── Suas credenciais do Firebase ──────────────────────────
+    const firebaseConfig = {
+        apiKey:            "AIzaSyC0WQMgciBTSnQTGp8ex-jasvVxMg9Nwj4",
+        authDomain:        "forminhas-js-e4d68.firebaseapp.com",
+        projectId:         "forminhas-js-e4d68",
+        storageBucket:     "forminhas-js-e4d68.firebasestorage.app",
+        messagingSenderId: "881627361514",
+        appId:             "1:881627361514:web:5373127472468024346793",
+    };
+    // ─────────────────────────────────────────────────────────
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Se já estiver logada, vai direto para a loja
+    onAuthStateChanged(auth, user => {
+        if (user) window.location.href = 'index.html';
+    });
+
+    // ── Helpers UI ────────────────────────────────────────────
+    function setLoading(btnId, on) {
+        const btn = document.getElementById(btnId);
+        btn.disabled = on;
+        btn.innerHTML = on
+            ? `<span class="spinner"></span>Aguarde...`
+            : btn.dataset.label;
+    }
+    function alerta(id, msg, tipo) {
+        const el = document.getElementById(id);
+        el.className = `alerta ${tipo}`; el.textContent = msg;
+    }
+    function limparAlerta(id) {
+        const el = document.getElementById(id);
+        el.className = 'alerta'; el.textContent = '';
+    }
+    function showErro(id, v) { document.getElementById(id)?.classList.toggle('visivel', v); }
+    function marcaCampo(id, v){ document.getElementById(id)?.classList.toggle('erro', v); }
+    function validarEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+
+    document.getElementById('btn-login').dataset.label    = 'Entrar';
+    document.getElementById('btn-cadastro').dataset.label = 'Criar Conta';
+
+    // ── Aba ───────────────────────────────────────────────────
+    window.trocarAba = aba => {
+        document.querySelectorAll('.tab-btn').forEach((b,i) =>
+            b.classList.toggle('active', (aba==='login'&&i===0)||(aba==='cadastro'&&i===1)));
+        document.getElementById('painel-login').classList.toggle('active',    aba==='login');
+        document.getElementById('painel-cadastro').classList.toggle('active', aba==='cadastro');
+        limparAlerta('alerta-login'); limparAlerta('alerta-cadastro');
+    };
+
+    // ── Toggle senha ──────────────────────────────────────────
+    const eyeOpen  = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    const eyeClosed= `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+    window.toggleSenha = (inputId, btn) => {
+        const inp = document.getElementById(inputId);
+        const vis = inp.type === 'text';
+        inp.type = vis ? 'password' : 'text';
+        btn.innerHTML = vis ? eyeOpen : eyeClosed;
+    };
+
+    // ── Força da senha ────────────────────────────────────────
+    window.verificarForca = senha => {
+        let p = 0;
+        if (senha.length>=6) p++; if (senha.length>=10) p++;
+        if (/[A-Z]/.test(senha)) p++; if (/[0-9]/.test(senha)) p++;
+        if (/[^A-Za-z0-9]/.test(senha)) p++;
+        const cores  = ['','#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'];
+        const labels = ['','Fraca','Razoável','Boa','Forte','Muito forte'];
+        const n = Math.min(p,5);
+        const barra = document.getElementById('forca-barra');
+        const texto = document.getElementById('forca-texto');
+        barra.style.background = senha.length ? cores[n] : '#eee';
+        barra.style.width      = senha.length ? `${(p/5)*100}%` : '100%';
+        texto.textContent      = senha.length ? `Força: ${labels[n]}` : '';
+        texto.style.color      = cores[n];
+    };
+
+    // ── Traduzir erros Firebase ───────────────────────────────
+    function traduzir(code) {
+        return ({
+            'auth/email-already-in-use':   'Este e-mail já está cadastrado. Tente fazer login.',
+            'auth/invalid-email':          'E-mail inválido.',
+            'auth/weak-password':          'Senha muito fraca. Use pelo menos 6 caracteres.',
+            'auth/user-not-found':         'Nenhuma conta encontrada com este e-mail.',
+            'auth/wrong-password':         'Senha incorreta. Tente novamente.',
+            'auth/invalid-credential':     'E-mail ou senha incorretos.',
+            'auth/too-many-requests':      'Muitas tentativas. Aguarde alguns minutos.',
+            'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+        })[code] || 'Ocorreu um erro. Tente novamente.';
+    }
+
+    // ── LOGIN ─────────────────────────────────────────────────
+    window.fazerLogin = async () => {
+        limparAlerta('alerta-login');
+        const email = document.getElementById('login-email').value.trim();
+        const senha = document.getElementById('login-senha').value;
+        let ok = true;
+
+        const emailOk = validarEmail(email);
+        showErro('err-login-email', !emailOk); marcaCampo('login-email', !emailOk);
+        if (!emailOk) ok = false;
+        showErro('err-login-senha', !senha); marcaCampo('login-senha', !senha);
+        if (!senha) ok = false;
+        if (!ok) return;
+
+        setLoading('btn-login', true);
+        try {
+            await signInWithEmailAndPassword(auth, email, senha);
+            alerta('alerta-login', '✓ Login realizado! Redirecionando...', 'ok');
+            // onAuthStateChanged vai redirecionar automaticamente
+        } catch(e) {
+            alerta('alerta-login', traduzir(e.code), 'erro');
+            setLoading('btn-login', false);
+        }
+    };
+
+    // ── CADASTRO ──────────────────────────────────────────────
+    window.fazerCadastro = async () => {
+        limparAlerta('alerta-cadastro');
+        const nome     = document.getElementById('cad-nome').value.trim();
+        const email    = document.getElementById('cad-email').value.trim();
+        const senha    = document.getElementById('cad-senha').value;
+        const confirma = document.getElementById('cad-confirma').value;
+        let ok = true;
+
+        const nomeOk    = nome.length >= 2;
+        const emailOk   = validarEmail(email);
+        const senhaOk   = senha.length >= 6;
+        const confirmaOk= senha === confirma;
+
+        showErro('err-cad-nome',     !nomeOk);     marcaCampo('cad-nome',     !nomeOk);
+        showErro('err-cad-email',    !emailOk);    marcaCampo('cad-email',    !emailOk);
+        showErro('err-cad-senha',    !senhaOk);    marcaCampo('cad-senha',    !senhaOk);
+        showErro('err-cad-confirma', !confirmaOk); marcaCampo('cad-confirma', !confirmaOk);
+        if (!nomeOk || !emailOk || !senhaOk || !confirmaOk) return;
+
+        setLoading('btn-cadastro', true);
+        try {
+            const cred = await createUserWithEmailAndPassword(auth, email, senha);
+            await updateProfile(cred.user, { displayName: nome });
+            alerta('alerta-cadastro', `✓ Bem-vinda, ${nome.split(' ')[0]}! Redirecionando...`, 'ok');
+            // onAuthStateChanged vai redirecionar automaticamente
+        } catch(e) {
+            alerta('alerta-cadastro', traduzir(e.code), 'erro');
+            setLoading('btn-cadastro', false);
+        }
+    };
+
+    // Enter para submeter
+    document.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        const loginAtivo = document.getElementById('painel-login').classList.contains('active');
+        loginAtivo ? window.fazerLogin() : window.fazerCadastro();
+    });
+</script>
+</body>
+</html>
