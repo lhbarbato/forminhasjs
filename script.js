@@ -27,11 +27,10 @@ const produtos = [
     { id: 25, nome: 'Forminha Rosa Bebê',         cor: 'rosa',       preco: 14.90, fotos: ['rosa bebe.jpg', 'rosa bebe cor.png'], descricao: 'Forminha de seda na cor rosa bebê' },
     { id: 26, nome: 'Forminha Pérola',            cor: 'terrosos',   preco: 14.90, fotos: ['perola.jpg', 'perola cor.png'], descricao: 'Forminha de seda na cor pérola' },
     { id: 27, nome: 'Forminha Goiaba',            cor: 'rosa',       preco: 14.90, fotos: ['goiaba.jpg', 'goiaba cor.png'], descricao: 'Forminha de seda na cor goiaba' },
-    { id: 28, nome: 'Forminha Nude',              cor: 'terrosos',    preco: 14.90, fotos: ['nude.jpg', 'nude cor.png'], descricao: 'Forminha de seda na cor nude' },
 ];
 
 // Cores para exibição
-const coresInfo = {
+const  = {
     terrosos:       { nome: 'Neutro',       hex: '#282a2b' }, 
     azul:       { nome: 'Azul',       hex: '#90CAF9' },
     roxo:       { nome: 'Roxo',       hex: '#9a62da' },
@@ -59,7 +58,7 @@ function salvarCarrinho() {
 
 // ========== RENDERIZAR PRODUTOS ==========
 function renderizarProdutos(filtro = 'todas') {
-    const gridProdutos = document.getElementById('gridProdutos');
+    coresInfoconst gridProdutos = document.getElementById('gridProdutos');
     if (!gridProdutos) return;
 
     gridProdutos.innerHTML = '';
