@@ -30,7 +30,7 @@ const produtos = [
 ];
 
 // Cores para exibição
-const  = {
+const coresInfo = {
     terrosos:       { nome: 'Neutro',       hex: '#282a2b' }, 
     azul:       { nome: 'Azul',       hex: '#90CAF9' },
     roxo:       { nome: 'Roxo',       hex: '#9a62da' },
@@ -58,7 +58,7 @@ function salvarCarrinho() {
 
 // ========== RENDERIZAR PRODUTOS ==========
 function renderizarProdutos(filtro = 'todas') {
-    coresInfoconst gridProdutos = document.getElementById('gridProdutos');
+    const gridProdutos = document.getElementById('gridProdutos');
     if (!gridProdutos) return;
 
     gridProdutos.innerHTML = '';
