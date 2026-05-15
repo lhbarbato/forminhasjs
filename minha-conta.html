@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta — Forminhas JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --rosa:        #ECC5C6;
+            --rosa-deep:   #d4a5a6;
+            --azul:        #8A9DB1;
+            --azul-deep:   #6b82a0;
+            --cinza:       #C1C0C2;
+            --caqui:       #837D68;
+            --fundo:       #F5E9E7;
+            --fundo-alt:   #fdf7f5;
+            --branco:      #FFFFFF;
+            --texto:       #3a3230;
+            --texto-light: #7a6e6b;
+
+            --font-script:  'Cormorant Garamond', Georgia, serif;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body:    'Lato', sans-serif;
+
+            --shadow-soft: 0 4px 30px rgba(140, 90, 90, 0.08);
+            --shadow-card: 0 8px 40px rgba(140, 90, 90, 0.12);
+            --transition:  0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--fundo);
+            color: var(--texto);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(245, 233, 231, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(236, 197, 198, 0.4);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-link { text-decoration: none; display: flex; flex-direction: column; gap: 2px; }
+        .logo-script { font-family: var(--font-script); font-size: 26px; font-weight: 300; font-style: italic; color: var(--texto); letter-spacing: 1px; line-height: 1; }
+        .logo-serif { font-family: var(--font-display); font-size: 11px; font-weight: 500; letter-spacing: 5px; text-transform: uppercase; color: var(--caqui); }
+
+        .header-nav { display: flex; align-items: center; gap: 32px; }
+        .header-nav a {
+            text-decoration: none; font-family: var(--font-body);
+            font-size: 11px; font-weight: 400; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--texto-light);
+            transition: color var(--transition); position: relative;
+        }
+        .header-nav a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--rosa-deep);
+            transition: width var(--transition);
+        }
+        .header-nav a:hover { color: var(--texto); }
+        .header-nav a:hover::after { width: 100%; }
+
+        /* ── HERO DA CONTA ── */
+        .conta-hero {
+            background: var(--branco);
+            border-bottom: 1px solid rgba(236, 197, 198, 0.35);
+            padding: 60px 40px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conta-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(ellipse, rgba(236,197,198,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .avatar-grande {
+            width: 88px; height: 88px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rosa), #c4a2b2);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-size: 34px; color: var(--branco);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 28px rgba(212,165,166,0.35);
+            position: relative; z-index: 1;
+        }
+
+        .conta-hero-nome {
+            font-family: var(--font-display);
+            font-size: clamp(26px, 3vw, 40px);
+            font-weight: 400; color: var(--texto);
+            margin-bottom: 6px; position: relative; z-index: 1;
+        }
+
+        .conta-hero-email {
+            font-size: 13px; color: var(--texto-light);
+            letter-spacing: 0.5px; position: relative; z-index: 1;
+        }
+
+        .conta-hero-badge {
+            display: inline-block; margin-top: 14px;
+            background: var(--fundo); border: 1px solid rgba(236,197,198,0.6);
+            padding: 5px 16px; font-size: 10px; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--caqui);
+            position: relative; z-index: 1;
+        }
+
+        /* ── LAYOUT PRINCIPAL ── */
+        .conta-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 52px 40px 80px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            background: var(--branco);
+            border: 1px solid rgba(193, 192, 194, 0.35);
+            overflow: hidden;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-header {
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid rgba(236, 197, 198, 0.3);
+        }
+
+        .sidebar-titulo {
+            font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--caqui); font-family: var(--font-body);
+        }
+
+        .sidebar-menu { padding: 8px 0; }
+
+        .sidebar-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 24px;
+            font-family: var(--font-body); font-size: 12px;
+            letter-spacing: 1px; color: var(--texto-light);
+            cursor: pointer; transition: all var(--transition);
+            border: none; background: none; width: 100%; text-align: left;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            color: var(--texto);
+            background: rgba(236, 197, 198, 0.1);
+            border-left-color: rgba(236, 197, 198, 0.5);
+        }
+
+        .sidebar-item.ativo {
+            color: var(--texto);
+            background: rgba(236, 197, 198, 0.15);
+            border-left-color: var(--rosa-deep);
+        }
+
+        .sidebar-item svg { flex-shrink: 0; color: var(--cinza); }
+        .sidebar-item:hover svg, .sidebar-item.ativo svg { color: var(--rosa-deep); }
+
+        .sidebar-divider { height: 1px; background: rgba(193,192,194,0.25); margin: 6px 0; }
+
+        .sidebar-sair {
+            color: #c0392b !important;
+        }
+        .sidebar-sair svg { color: #c0392b !important; }
+        .sidebar-sair:hover { background: rgba(192,57,43,0.06) !important; border-left-color: #c0392b !important; }
+
+        /* ── CONTEÚDO ── */
+        .conta-conteudo { display: flex; flex-direction: column; gap: 28px; }
+
+        .secao {
+            background: var(--branco);
+            border: 1px solid rgba(193, 192, 194, 0.35);
+            overflow: hidden;
+        }
+
+        .secao-header {
+            padding: 28px 36px 22px;
+            border-bottom: 1px solid rgba(236, 197, 198, 0.3);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .secao-titulo-wrap { display: flex; flex-direction: column; gap: 4px; }
+        .secao-eyebrow { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--caqui); }
+        .secao-titulo {
+            font-family: var(--font-display); font-size: 22px;
+            font-weight: 400; color: var(--texto);
+        }
+
+        .secao-corpo { padding: 32px 36px; }
+
+        /* ── FORMULÁRIO DE PERFIL ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            font-size: 10px; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--caqui);
+        }
+
+        .form-group input, .form-group select {
+            padding: 13px 16px;
+            border: 1px solid rgba(193, 192, 194, 0.45);
+            background: var(--fundo-alt);
+            font-family: var(--font-script); font-size: 16px;
+            color: var(--texto); outline: none;
+            transition: border-color var(--transition), background var(--transition);
+            appearance: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--rosa-deep); background: var(--branco);
+        }
+
+        .form-group input:disabled {
+            opacity: 0.55; cursor: not-allowed;
+        }
+
+        .form-group input::placeholder { color: var(--cinza); font-style: italic; }
+
+        .form-nota { font-size: 11px; color: var(--texto-light); margin-top: 4px; font-style: italic; font-family: var(--font-script); }
+
+        .form-acoes { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+
+        .btn-salvar {
+            background: var(--texto); color: var(--fundo);
+            border: none; padding: 13px 36px;
+            font-family: var(--font-body); font-size: 10px;
+            font-weight: 400; letter-spacing: 3px;
+            text-transform: uppercase; cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-salvar:hover { background: var(--caqui); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(131,125,104,0.25); }
+
+        .btn-cancelar {
+            background: transparent; color: var(--texto-light);
+            border: 1px solid var(--cinza); padding: 13px 24px;
+            font-family: var(--font-body); font-size: 10px;
+            letter-spacing: 3px; text-transform: uppercase;
+            cursor: pointer; transition: var(--transition);
+        }
+        .btn-cancelar:hover { border-color: var(--texto-light); color: var(--texto); }
+
+        /* ── SENHA ── */
+        .input-wrap { position: relative; }
+        .input-wrap input { padding-right: 48px; width: 100%; }
+        .toggle-senha {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer;
+            color: var(--cinza); transition: color var(--transition);
+        }
+        .toggle-senha:hover { color: var(--texto-light); }
+
+        .forca-barra { height: 3px; border-radius: 2px; background: #eee; margin-top: 8px; transition: all 0.3s; }
+        .forca-texto { font-size: 11px; color: var(--texto-light); margin-top: 4px; font-style: italic; font-family: var(--font-script); }
+
+        /* ── PEDIDOS ── */
+        .pedidos-vazio {
+            text-align: center;
+            padding: 52px 20px;
+        }
+
+        .pedidos-vazio-icon { font-size: 52px; opacity: 0.25; margin-bottom: 18px; }
+        .pedidos-vazio h3 {
+            font-family: var(--font-display); font-size: 20px; font-weight: 400;
+            color: var(--texto); margin-bottom: 10px;
+        }
+        .pedidos-vazio p {
+            font-family: var(--font-script); font-style: italic;
+            font-size: 17px; color: var(--texto-light);
+        }
+
+        .btn-ir-loja {
+            display: inline-block; margin-top: 24px;
+            text-decoration: none;
+            background: var(--texto); color: var(--fundo);
+            padding: 13px 32px;
+            font-family: var(--font-body); font-size: 10px;
+            letter-spacing: 3px; text-transform: uppercase;
+            transition: var(--transition);
+        }
+        .btn-ir-loja:hover { background: var(--caqui); transform: translateY(-1px); }
+
+        /* ── ALERTA ── */
+        .alerta {
+            border-radius: 0; padding: 13px 20px;
+            font-size: 13px; display: none; margin-bottom: 20px;
+        }
+        .alerta.ok   { background: #edf7f3; border: 1px solid #b2dfc8; color: #2e7d5e; display: block; }
+        .alerta.erro { background: #fdf0ef; border: 1px solid #f5c6c2; color: #c0392b; display: block; }
+
+        .spinner {
+            display: inline-block; width: 13px; height: 13px;
+            border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+            border-radius: 50%; animation: spin 0.7s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── CARREGANDO ── */
+        .carregando {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 300px; gap: 16px;
+        }
+
+        .carregando-spinner {
+            width: 32px; height: 32px;
+            border: 2px solid rgba(236,197,198,0.4);
+            border-top-color: var(--rosa-deep);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+
+        .carregando p {
+            font-family: var(--font-script); font-style: italic;
+            font-size: 18px; color: var(--texto-light);
+        }
+
+        /* ── RESPONSIVO ── */
+        @media (max-width: 900px) {
+            .conta-layout { grid-template-columns: 1fr; padding: 32px 24px 60px; gap: 24px; }
+            .sidebar { position: static; }
+            .sidebar-menu { display: flex; flex-wrap: wrap; padding: 4px; }
+            .sidebar-item { flex: 1; min-width: 120px; border-left: none !important; border-bottom: 2px solid transparent; justify-content: center; flex-direction: column; gap: 4px; padding: 10px; font-size: 10px; }
+            .sidebar-item.ativo { border-bottom-color: var(--rosa-deep) !important; }
+            .sidebar-divider { display: none; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: auto; }
+            .header-inner { padding: 0 24px; }
+            .conta-hero { padding: 40px 24px 36px; }
+            .secao-header, .secao-corpo { padding-left: 24px; padding-right: 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .secao-header, .secao-corpo { padding-left: 18px; padding-right: 18px; }
+            .form-acoes { flex-direction: column; align-items: stretch; }
+            .btn-salvar, .btn-cancelar { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <span class="logo-script">Forminhas</span>
+                <span class="logo-serif">JS</span>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html#produtos">Produtos</a>
+                <a href="index.html#contato">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO DA CONTA -->
+    <div class="conta-hero" id="contaHero">
+        <div class="carregando">
+            <div class="carregando-spinner"></div>
+            <p>Carregando sua conta…</p>
+        </div>
+    </div>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="conta-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <p class="sidebar-titulo">Navegação</p>
+            </div>
+            <nav class="sidebar-menu">
+                <button class="sidebar-item ativo" onclick="mostrarSecao('perfil', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Meu Perfil
+                </button>
+                <button class="sidebar-item" onclick="mostrarSecao('senha', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    Senha
+                </button>
+                <button class="sidebar-item" onclick="mostrarSecao('pedidos', this)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    Pedidos
+                </button>
+                <div class="sidebar-divider"></div>
+                <button class="sidebar-item sidebar-sair" id="btnSairSidebar">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair
+                </button>
+            </nav>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="conta-conteudo">
+
+            <!-- SEÇÃO: MEU PERFIL -->
+            <section class="secao" id="secao-perfil">
+                <div class="secao-header">
+                    <div class="secao-titulo-wrap">
+                        <span class="secao-eyebrow">✦ Informações Pessoais</span>
+                        <h2 class="secao-titulo">Meu Perfil</h2>
+                    </div>
+                </div>
+                <div class="secao-corpo">
+                    <div id="alerta-perfil" class="alerta"></div>
+                    <form onsubmit="salvarPerfil(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" id="perfil-nome" placeholder="Seu nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Sobrenome</label>
+                                <input type="text" id="perfil-sobrenome" placeholder="Seu sobrenome">
+                            </div>
+                            <div class="form-group full">
+                                <label>E-mail</label>
+                                <input type="email" id="perfil-email" disabled>
+                                <span class="form-nota">O e-mail não pode ser alterado por aqui.</span>
+                            </div>
+                        </div>
+                        <div class="form-acoes" style="margin-top: 28px;">
+                            <button type="submit" class="btn-salvar" id="btn-salvar-perfil">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: SENHA -->
+            <section class="secao" id="secao-senha" style="display:none">
+                <div class="secao-header">
+                    <div class="secao-titulo-wrap">
+                        <span class="secao-eyebrow">✦ Segurança</span>
+                        <h2 class="secao-titulo">Alterar Senha</h2>
+                    </div>
+                </div>
+                <div class="secao-corpo">
+                    <div id="alerta-senha" class="alerta"></div>
+                    <form onsubmit="salvarSenha(event)" style="max-width: 440px;">
+                        <div class="form-grid" style="grid-template-columns: 1fr;">
+                            <div class="form-group">
+                                <label>Nova Senha</label>
+                                <div class="input-wrap">
+                                    <input type="password" id="nova-senha" placeholder="Mínimo 6 caracteres" oninput="verificarForca(this.value)">
+                                    <button type="button" class="toggle-senha" onclick="toggleSenha('nova-senha', this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                                <div class="forca-barra" id="forca-barra"></div>
+                                <p class="forca-texto" id="forca-texto"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Nova Senha</label>
+                                <div class="input-wrap">
+                                    <input type="password" id="confirma-senha" placeholder="Repita a nova senha">
+                                    <button type="button" class="toggle-senha" onclick="toggleSenha('confirma-senha', this)">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-acoes" style="margin-top: 28px;">
+                            <button type="submit" class="btn-salvar" id="btn-salvar-senha">Atualizar Senha</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SEÇÃO: PEDIDOS -->
+            <section class="secao" id="secao-pedidos" style="display:none">
+                <div class="secao-header">
+                    <div class="secao-titulo-wrap">
+                        <span class="secao-eyebrow">✦ Histórico</span>
+                        <h2 class="secao-titulo">Meus Pedidos</h2>
+                    </div>
+                </div>
+                <div class="secao-corpo">
+                    <div class="pedidos-vazio">
+                        <div class="pedidos-vazio-icon">🧁</div>
+                        <h3>Nenhum pedido ainda</h3>
+                        <p>Quando você fizer um pedido, ele aparecerá aqui.</p>
+                        <a href="index.html#produtos" class="btn-ir-loja">Explorar a Loja</a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp }       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut, updateProfile, updatePassword }
+                                       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey:            "AIzaSyC0WQMgciBTSnQTGp8ex-jasvVxMg9Nwj4",
+            authDomain:        "forminhas-js-e4d68.firebaseapp.com",
+            projectId:         "forminhas-js-e4d68",
+            storageBucket:     "forminhas-js-e4d68.firebasestorage.app",
+            messagingSenderId: "881627361514",
+            appId:             "1:881627361514:web:5373127472468024346793",
+        };
+
+        const app  = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // ── Redireciona se não logado ──
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Preenche Hero
+            const nome     = user.displayName || user.email.split('@')[0];
+            const iniciais = nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+            document.getElementById('contaHero').innerHTML = `
+                <div class="avatar-grande">${iniciais}</div>
+                <h1 class="conta-hero-nome">${nome}</h1>
+                <p class="conta-hero-email">${user.email}</p>
+                <span class="conta-hero-badge">✦ Minha Conta</span>
+            `;
+
+            // Preenche form de perfil
+            const partes = (user.displayName || '').split(' ');
+            document.getElementById('perfil-nome').value      = partes[0] || '';
+            document.getElementById('perfil-sobrenome').value = partes.slice(1).join(' ') || '';
+            document.getElementById('perfil-email').value     = user.email || '';
+        });
+
+        // ── Salvar perfil ──
+        window.salvarPerfil = async (e) => {
+            e.preventDefault();
+            const nome      = document.getElementById('perfil-nome').value.trim();
+            const sobrenome = document.getElementById('perfil-sobrenome').value.trim();
+            const nomeCompleto = [nome, sobrenome].filter(Boolean).join(' ');
+            const btn = document.getElementById('btn-salvar-perfil');
+            const user = auth.currentUser;
+            if (!user) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Salvando…';
+
+            try {
+                await updateProfile(user, { displayName: nomeCompleto });
+                mostrarAlerta('alerta-perfil', '✓ Perfil atualizado com sucesso!', 'ok');
+                // Atualiza hero
+                const iniciais = nomeCompleto.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase();
+                document.querySelector('.avatar-grande').textContent = iniciais;
+                document.querySelector('.conta-hero-nome').textContent = nomeCompleto;
+            } catch (err) {
+                mostrarAlerta('alerta-perfil', 'Erro ao salvar. Tente novamente.', 'erro');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Salvar Alterações';
+        };
+
+        // ── Salvar senha ──
+        window.salvarSenha = async (e) => {
+            e.preventDefault();
+            const nova     = document.getElementById('nova-senha').value;
+            const confirma = document.getElementById('confirma-senha').value;
+            const btn      = document.getElementById('btn-salvar-senha');
+            const user     = auth.currentUser;
+            if (!user) return;
+
+            if (nova.length < 6) {
+                mostrarAlerta('alerta-senha', 'A nova senha precisa ter pelo menos 6 caracteres.', 'erro');
+                return;
+            }
+            if (nova !== confirma) {
+                mostrarAlerta('alerta-senha', 'As senhas não coincidem.', 'erro');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Atualizando…';
+
+            try {
+                await updatePassword(user, nova);
+                mostrarAlerta('alerta-senha', '✓ Senha atualizada com sucesso!', 'ok');
+                document.getElementById('nova-senha').value = '';
+                document.getElementById('confirma-senha').value = '';
+                document.getElementById('forca-barra').style.background = '#eee';
+                document.getElementById('forca-texto').textContent = '';
+            } catch (err) {
+                const msg = err.code === 'auth/requires-recent-login'
+                    ? 'Por segurança, faça login novamente antes de alterar a senha.'
+                    : 'Erro ao atualizar senha. Tente novamente.';
+                mostrarAlerta('alerta-senha', msg, 'erro');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Atualizar Senha';
+        };
+
+        // ── Logout ──
+        document.getElementById('btnSairSidebar').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.href = 'index.html';
+        });
+
+        // ── Helpers UI ──
+        function mostrarAlerta(id, msg, tipo) {
+            const el = document.getElementById(id);
+            el.className = `alerta ${tipo}`;
+            el.textContent = msg;
+            setTimeout(() => { el.className = 'alerta'; el.textContent = ''; }, 5000);
+        }
+        window.mostrarAlerta = mostrarAlerta;
+
+        // Toggle senha
+        const eyeOpen   = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+        const eyeClosed = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+
+        window.toggleSenha = (inputId, btn) => {
+            const inp = document.getElementById(inputId);
+            const vis = inp.type === 'text';
+            inp.type = vis ? 'password' : 'text';
+            btn.innerHTML = vis ? eyeOpen : eyeClosed;
+        };
+
+        window.verificarForca = senha => {
+            let p = 0;
+            if (senha.length >= 6)  p++;
+            if (senha.length >= 10) p++;
+            if (/[A-Z]/.test(senha)) p++;
+            if (/[0-9]/.test(senha)) p++;
+            if (/[^A-Za-z0-9]/.test(senha)) p++;
+            const cores  = ['','#e74c3c','#e67e22','#f1c40f','#2ecc71','#27ae60'];
+            const labels = ['','Fraca','Razoável','Boa','Forte','Muito forte'];
+            const n = Math.min(p, 5);
+            const barra = document.getElementById('forca-barra');
+            const texto = document.getElementById('forca-texto');
+            barra.style.background = senha.length ? cores[n] : '#eee';
+            barra.style.width      = senha.length ? `${(p / 5) * 100}%` : '100%';
+            texto.textContent      = senha.length ? `Força: ${labels[n]}` : '';
+            texto.style.color      = cores[n];
+        };
+    </script>
+
+    <script>
+        // ── Navegação entre seções ──
+        function mostrarSecao(secao, btn) {
+            document.querySelectorAll('.secao').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('ativo'));
+            document.getElementById(`secao-${secao}`).style.display = 'block';
+            if (btn) btn.classList.add('ativo');
+        }
+    </script>
+</body>
+</html>

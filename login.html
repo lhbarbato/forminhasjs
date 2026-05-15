@@ -357,70 +357,67 @@ onAuthStateChanged(auth, user => {
     }
 
     // ── LOGIN ─────────────────────────────────────────────────
-    window.fazerLogin = async () => {
-        redirecionarAutomaticamente = false; // ← adicione aqui
-        limparAlerta('alerta-login');
-        const email = document.getElementById('login-email').value.trim();
-        const senha = document.getElementById('login-senha').value;
-        let ok = true;
+window.fazerLogin = async () => {
+    limparAlerta('alerta-login');
+    const email = document.getElementById('login-email').value.trim();
+    const senha = document.getElementById('login-senha').value;
+    let ok = true;
 
-        const emailOk = validarEmail(email);
-        showErro('err-login-email', !emailOk); marcaCampo('login-email', !emailOk);
-        if (!emailOk) ok = false;
-        showErro('err-login-senha', !senha); marcaCampo('login-senha', !senha);
-        if (!senha) ok = false;
-        if (!ok) return;
+    const emailOk = validarEmail(email);
+    showErro('err-login-email', !emailOk); marcaCampo('login-email', !emailOk);
+    if (!emailOk) ok = false;
+    showErro('err-login-senha', !senha); marcaCampo('login-senha', !senha);
+    if (!senha) ok = false;
+    if (!ok) return;
 
-        setLoading('btn-login', true);
-        try {
-            await signInWithEmailAndPassword(auth, email, senha);
-            alerta('alerta-login', '✓ Login realizado! Redirecionando...', 'ok');
-            // onAuthStateChanged vai redirecionar automaticamente
-        } catch(e) {
-            alerta('alerta-login', traduzir(e.code), 'erro');
-            setLoading('btn-login', false);
-        }
-    };
+    setLoading('btn-login', true);
+    try {
+        await signInWithEmailAndPassword(auth, email, senha);
+        alerta('alerta-login', '✓ Login realizado! Redirecionando...', 'ok');
+        setTimeout(() => window.location.href = 'index.html', 1000); // ← redirecionamento manual
+    } catch(e) {
+        alerta('alerta-login', traduzir(e.code), 'erro');
+        setLoading('btn-login', false);
+    }
+};
 
-    // ── CADASTRO ──────────────────────────────────────────────
-    window.fazerCadastro = async () => {
-        redirecionarAutomaticamente = false; // ← adicione aqui
-        limparAlerta('alerta-cadastro');
-        const nome     = document.getElementById('cad-nome').value.trim();
-        const email    = document.getElementById('cad-email').value.trim();
-        const senha    = document.getElementById('cad-senha').value;
-        const confirma = document.getElementById('cad-confirma').value;
-        let ok = true;
+window.fazerCadastro = async () => {
+    limparAlerta('alerta-cadastro');
+    const nome     = document.getElementById('cad-nome').value.trim();
+    const email    = document.getElementById('cad-email').value.trim();
+    const senha    = document.getElementById('cad-senha').value;
+    const confirma = document.getElementById('cad-confirma').value;
+    let ok = true;
 
-        const nomeOk    = nome.length >= 2;
-        const emailOk   = validarEmail(email);
-        const senhaOk   = senha.length >= 6;
-        const confirmaOk= senha === confirma;
+    const nomeOk    = nome.length >= 2;
+    const emailOk   = validarEmail(email);
+    const senhaOk   = senha.length >= 6;
+    const confirmaOk= senha === confirma;
 
-        showErro('err-cad-nome',     !nomeOk);     marcaCampo('cad-nome',     !nomeOk);
-        showErro('err-cad-email',    !emailOk);    marcaCampo('cad-email',    !emailOk);
-        showErro('err-cad-senha',    !senhaOk);    marcaCampo('cad-senha',    !senhaOk);
-        showErro('err-cad-confirma', !confirmaOk); marcaCampo('cad-confirma', !confirmaOk);
-        if (!nomeOk || !emailOk || !senhaOk || !confirmaOk) return;
+    showErro('err-cad-nome',     !nomeOk);     marcaCampo('cad-nome',     !nomeOk);
+    showErro('err-cad-email',    !emailOk);    marcaCampo('cad-email',    !emailOk);
+    showErro('err-cad-senha',    !senhaOk);    marcaCampo('cad-senha',    !senhaOk);
+    showErro('err-cad-confirma', !confirmaOk); marcaCampo('cad-confirma', !confirmaOk);
+    if (!nomeOk || !emailOk || !senhaOk || !confirmaOk) return;
 
-        setLoading('btn-cadastro', true);
-        try {
-            const cred = await createUserWithEmailAndPassword(auth, email, senha);
-            await updateProfile(cred.user, { displayName: nome });
-            alerta('alerta-cadastro', `✓ Bem-vinda, ${nome.split(' ')[0]}! Redirecionando...`, 'ok');
-            // onAuthStateChanged vai redirecionar automaticamente
-        } catch(e) {
-            alerta('alerta-cadastro', traduzir(e.code), 'erro');
-            setLoading('btn-cadastro', false);
-        }
-    };
+    setLoading('btn-cadastro', true);
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, senha);
+        await updateProfile(cred.user, { displayName: nome });
+        alerta('alerta-cadastro', `✓ Bem-vinda, ${nome.split(' ')[0]}! Redirecionando...`, 'ok');
+        setTimeout(() => window.location.href = 'index.html', 1000); // ← redirecionamento manual
+    } catch(e) {
+        alerta('alerta-cadastro', traduzir(e.code), 'erro');
+        setLoading('btn-cadastro', false);
+    }
+};
 
-    // Enter para submeter
-    document.addEventListener('keydown', e => {
-        if (e.key !== 'Enter') return;
-        const loginAtivo = document.getElementById('painel-login').classList.contains('active');
-        loginAtivo ? window.fazerLogin() : window.fazerCadastro();
-    });
+// Enter para submeter
+document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const loginAtivo = document.getElementById('painel-login').classList.contains('active');
+    loginAtivo ? window.fazerLogin() : window.fazerCadastro();
+});
 </script>
 </body>
 </html>
