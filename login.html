@@ -29,7 +29,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            overflow: hidden;
+            overflow-y: auto;
         }
 
         .bg-petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
@@ -276,12 +276,13 @@
     // Se já estiver logada, vai direto para a loja
     let redirecionarAutomaticamente = true;
 
-    onAuthStateChanged(auth, user => {
-        if (user && redirecionarAutomaticamente) {
-            window.location.href = 'index.html';
-        }
-    });
+const veioDoSite = document.referrer.includes(location.hostname);
 
+onAuthStateChanged(auth, user => {
+    if (user && !veioDoSite) {
+        window.location.href = 'index.html';
+    }
+});
     // ── Helpers UI ────────────────────────────────────────────
     function setLoading(btnId, on) {
         const btn = document.getElementById(btnId);
