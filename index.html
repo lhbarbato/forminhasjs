@@ -321,31 +321,33 @@
     const btnSair        = document.getElementById('btnSair');
  
     /* ── Auth state ── */
-    onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, user => {
     if (user) {
-        const nome      = user.displayName || user.email.split('@')[0];
-        const primeiroNome = nome.split(' ')[0];
-        const iniciais  = nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        // Código existente...
         
-        // ADICIONE ESTA LINHA:
-        localStorage.setItem('usuario_id', user.uid);
+        // ⭐ VERIFIQUE SE ESTAS LINHAS EXISTEM:
+        localStorage.setItem('firebase_uid', user.uid);
+        localStorage.setItem('user_nome', user.displayName || nome);
+        localStorage.setItem('user_email', user.email);
         
-        btnEntrar.style.display    = 'none';
-        usuarioMenu.style.display  = 'block';
+        // ⭐ ADICIONE ESTA LINHA PARA RECARREGAR O CARRINHO:
+        carrinho = lerCarrinhoSalvo();
+        atualizarCarrinho();
         
-        usuarioAvatar.textContent  = iniciais;
-        usuarioNome.textContent    = primeiroNome;
-        dropdownNome.textContent   = user.displayName || primeiroNome;
-        dropdownEmail.textContent  = user.email;
+        // Resto do código...
     } else {
-        // ADICIONE ESTA LINHA:
-        localStorage.removeItem('usuario_id');
+        // ⭐ VERIFIQUE SE ESTAS LINHAS EXISTEM:
+        localStorage.removeItem('firebase_uid');
+        localStorage.removeItem('user_nome');
+        localStorage.removeItem('user_email');
         
-        btnEntrar.style.display    = '';
-        usuarioMenu.style.display  = 'none';
+        // ⭐ ADICIONE ESTA LINHA:
+        carrinho = lerCarrinhoSalvo();
+        atualizarCarrinho();
+        
+        // Resto do código...
     }
-});
- 
+}); 
     /* ── Toggle dropdown ── */
     usuarioTrigger?.addEventListener('click', e => {
         e.stopPropagation();
