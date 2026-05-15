@@ -41,19 +41,55 @@ const coresInfo = {
 
 // ========== CARRINHO ==========
 // Lê do localStorage ao iniciar
-let carrinho = lerCarrinhoSalvo();
+// ========== CARRINHO COM SUPORTE A MÚLTIPLOS USUÁRIOS ==========
+// ========== CARRINHO COM FIREBASE UID ==========
+function getUsuarioIdLogado() {
+    return localStorage.getItem('firebase_uid');
+}
 
 function lerCarrinhoSalvo() {
     try {
-        const salvo = localStorage.getItem('carrinho_forminhas');
+        const usuarioId = getUsuarioIdLogado();
+        if (!usuarioId) {
+            const salvo = localStorage.getItem('carrinho_forminhas');
+            return salvo ? JSON.parse(salvo) : [];
+        }
+        
+        const salvo = localStorage.getItem(`carrinho_usuario_${usuarioId}`);
         return salvo ? JSON.parse(salvo) : [];
     } catch {
         return [];
     }
 }
 
+let carrinho = lerCarrinhoSalvo();
+
 function salvarCarrinho() {
-    localStorage.setItem('carrinho_forminhas', JSON.stringify(carrinho));
+    const usuarioId = getUsuarioIdLogado();
+    if (usuarioId) {
+        localStorage.setItem(`carrinho_usuario_${usuarioId}`, JSON.stringify(carrinho));
+    } else {
+        localStorage.setItem('carrinho_forminhas', JSON.stringify(carrinho));
+    }
+}
+
+// ATUALIZAR carrinho quando usuário mudar
+window.addEventListener('storage', function(e) {
+    if (e.key === 'usuario_id') {
+        carrinho = lerCarrinhoSalvo();
+        atualizarCarrinho();
+        if (typeof renderizarProdutos === 'function') renderizarProdutos();
+    }
+});
+
+function carregarCarrinhoUsuario(userId) {
+    const carrinhoSalvo = localStorage.getItem(`carrinho_${userId}`);
+    if (carrinhoSalvo) {
+        carrinho = JSON.parse(carrinhoSalvo);
+    } else {
+        carrinho = [];
+    }
+    atualizarCarrinho();
 }
 
 // ========== RENDERIZAR PRODUTOS ==========

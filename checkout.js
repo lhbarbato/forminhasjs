@@ -2,37 +2,121 @@
 const SUPABASE_URL = 'https://bqnmvesukoyeajcxajiv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_1V5PdDziblL5m8mu186-KQ_OYPqATNL';
 
-async function supabaseInsert(tabela, dados) {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/${tabela}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Prefer': 'return=representation'
-        },
-        body: JSON.stringify(dados)
-    });
-
-    if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.message || 'Erro ao salvar no banco de dados');
-    }
-
-    return await response.json();
+// ========== FUNÇÃO PARA PEGAR UID DO FIREBASE ==========
+function getUsuarioIdLogado() {
+    // O UID do Firebase é salvo no login
+    return localStorage.getItem('firebase_uid');
 }
 
 // ========== CARRINHO ==========
 function lerCarrinho() {
     try {
-        const salvo = localStorage.getItem('carrinho_forminhas');
+        const usuarioId = getUsuarioIdLogado();
+        if (!usuarioId) {
+            const salvo = localStorage.getItem('carrinho_forminhas');
+            return salvo ? JSON.parse(salvo) : [];
+        }
+        
+        const salvo = localStorage.getItem(`carrinho_usuario_${usuarioId}`);
         return salvo ? JSON.parse(salvo) : [];
     } catch {
         return [];
     }
 }
 
+function salvarCarrinhoLocal(carrinhoData) {
+    const usuarioId = getUsuarioIdLogado();
+    if (usuarioId) {
+        localStorage.setItem(`carrinho_usuario_${usuarioId}`, JSON.stringify(carrinhoData));
+    } else {
+        localStorage.setItem('carrinho_forminhas', JSON.stringify(carrinhoData));
+    }
+}
+
 let carrinho = lerCarrinho();
+
+// ========== ENDEREÇOS DO USUÁRIO ==========
+async function carregarEnderecosUsuario() {
+    const usuarioId = getUsuarioIdLogado();
+    if (!usuarioId) return [];
+    
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/enderecos?usuario_id=eq.${usuarioId}&select=*`, {
+            method: 'GET',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`
+            }
+        });
+        
+        if (!response.ok) throw new Error('Erro ao carregar endereços');
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao carregar endereços:', error);
+        return [];
+    }
+}
+
+async function salvarEndereco(enderecoData) {
+    const usuarioId = getUsuarioIdLogado();
+    if (!usuarioId) return null;
+    
+    try {
+        const dadosCompletos = {
+            ...enderecoData,
+            usuario_id: usuarioId,
+            created_at: new Date().toISOString()
+        };
+        
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/enderecos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(dadosCompletos)
+        });
+        
+        if (!response.ok) throw new Error('Erro ao salvar endereço');
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao salvar endereço:', error);
+        return null;
+    }
+}
+
+async function carregarEnderecoNoFormulario() {
+    const enderecos = await carregarEnderecosUsuario();
+    if (enderecos.length === 0) return;
+    
+    const enderecoSelect = document.getElementById('enderecoSalvo');
+    if (enderecoSelect) {
+        enderecoSelect.innerHTML = '<option value="">-- Selecione um endereço salvo --</option>' +
+            enderecos.map(ender => `<option value="${ender.id}">${ender.nome_endereco || 'Endereço'}: ${ender.endereco}, ${ender.numero} - ${ender.cidade}</option>`).join('');
+        
+        document.getElementById('enderecosSalvosGrupo').style.display = 'block';
+        
+        enderecoSelect.onchange = () => {
+            const selectedId = parseInt(enderecoSelect.value);
+            const enderecoSelecionado = enderecos.find(e => e.id === selectedId);
+            if (enderecoSelecionado) {
+                preencherFormularioComEndereco(enderecoSelecionado);
+            }
+        };
+    }
+}
+
+function preencherFormularioComEndereco(endereco) {
+    document.getElementById('cep').value = endereco.cep || '';
+    document.getElementById('endereco').value = endereco.endereco || '';
+    document.getElementById('numero').value = endereco.numero || '';
+    document.getElementById('complemento').value = endereco.complemento || '';
+    document.getElementById('bairro').value = endereco.bairro || '';
+    document.getElementById('cidade').value = endereco.cidade || '';
+    document.getElementById('estado').value = endereco.estado || '';
+}
 
 // ========== RENDERIZAR RESUMO ==========
 function renderizarResumo() {
@@ -46,6 +130,8 @@ function renderizarResumo() {
     }
 
     container.innerHTML = '';
+    document.getElementById('checkoutForm').style.display = 'block';
+    document.getElementById('carrinhoVazioAviso').style.display = 'none';
 
     carrinho.forEach(item => {
         const subtotal = item.preco * item.quantidade;
@@ -72,7 +158,7 @@ function formatarCEP(valor) {
     return valor;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const cepInput = document.getElementById('cep');
     if (cepInput) {
         cepInput.addEventListener('input', function () {
@@ -81,8 +167,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const usuarioId = getUsuarioIdLogado();
+    if (usuarioId) {
+        await carregarEnderecoNoFormulario();
+        
+        // Preencher nome e email se estiver logado
+        const userNome = localStorage.getItem('user_nome');
+        const userEmail = localStorage.getItem('user_email');
+        if (userNome && document.getElementById('nome')) {
+            document.getElementById('nome').value = userNome;
+        }
+        if (userEmail && document.getElementById('email')) {
+            document.getElementById('email').value = userEmail;
+        }
+    }
+
     carrinho = lerCarrinho();
     renderizarResumo();
+    
+    window.addEventListener('storage', function(e) {
+        if (e.key && e.key.includes('carrinho_usuario')) {
+            carrinho = lerCarrinho();
+            renderizarResumo();
+        }
+    });
 });
 
 async function buscarCEP() {
@@ -157,6 +265,26 @@ function validarFormulario() {
     return true;
 }
 
+async function supabaseInsert(tabela, dados) {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/${tabela}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) {
+        const erro = await response.json();
+        throw new Error(erro.message || 'Erro ao salvar no banco de dados');
+    }
+
+    return await response.json();
+}
+
 // ========== CONFIRMAR PEDIDO ==========
 async function confirmarPedido() {
     esconderErro();
@@ -169,6 +297,8 @@ async function confirmarPedido() {
     loading.style.display = 'block';
 
     try {
+        const usuarioId = getUsuarioIdLogado();
+        
         const clienteData = {
             nome:      document.getElementById('nome').value.trim(),
             email:     document.getElementById('email').value.trim(),
@@ -180,6 +310,31 @@ async function confirmarPedido() {
             cidade:    document.getElementById('cidade').value.trim(),
             estado:    document.getElementById('estado').value.trim().toUpperCase(),
         };
+        
+        if (usuarioId) {
+            clienteData.firebase_uid = usuarioId;
+            
+            // Perguntar se quer salvar o endereço
+            const salvarEnderecoFlag = confirm('Deseja salvar este endereço na sua conta para próximas compras?');
+            if (salvarEnderecoFlag) {
+                const nomeEndereco = prompt('Dê um nome para este endereço (ex: "Casa", "Trabalho"):', 'Casa');
+                if (nomeEndereco) {
+                    const enderecoParaSalvar = {
+                        nome_endereco: nomeEndereco,
+                        cep: clienteData.cep,
+                        endereco: clienteData.endereco,
+                        numero: clienteData.numero,
+                        complemento: document.getElementById('complemento').value.trim(),
+                        bairro: clienteData.bairro,
+                        cidade: clienteData.cidade,
+                        estado: clienteData.estado,
+                        usuario_id: usuarioId
+                    };
+                    await salvarEndereco(enderecoParaSalvar);
+                    mostrarErro('✓ Endereço salvo na sua conta!', 'msgInfo');
+                }
+            }
+        }
 
         const clienteResposta = await supabaseInsert('clientes', clienteData);
         const clienteId = clienteResposta[0].id;
@@ -207,7 +362,12 @@ async function confirmarPedido() {
 
         await supabaseInsert('itens_pedido', itens);
 
-        localStorage.removeItem('carrinho_forminhas');
+        if (usuarioId) {
+            localStorage.removeItem(`carrinho_usuario_${usuarioId}`);
+        } else {
+            localStorage.removeItem('carrinho_forminhas');
+        }
+        carrinho = [];
 
         document.getElementById('conteudoPrincipal').style.display = 'none';
         document.getElementById('telaSucesso').style.display = 'block';
@@ -224,15 +384,21 @@ async function confirmarPedido() {
 }
 
 // ========== HELPERS ==========
-function mostrarErro(msg) {
-    const el = document.getElementById('msgErro');
-    el.textContent = msg;
-    el.style.display = 'block';
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+function mostrarErro(msg, id = 'msgErro') {
+    const el = document.getElementById(id);
+    if (el) {
+        el.textContent = msg;
+        el.style.display = 'block';
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => {
+            if (el.style.display === 'block') el.style.display = 'none';
+        }, 5000);
+    }
 }
 
 function esconderErro() {
-    document.getElementById('msgErro').style.display = 'none';
+    const el = document.getElementById('msgErro');
+    if (el) el.style.display = 'none';
 }
 
 // ========== HEADER SCROLL ==========
@@ -242,14 +408,14 @@ const header = document.querySelector('header');
 window.addEventListener('scroll', function () {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     if (scrollTop > lastScrollTop && scrollTop > 100) {
-        header.classList.add('hide');
+        if (header) header.classList.add('hide');
     } else {
-        header.classList.remove('hide');
+        if (header) header.classList.remove('hide');
     }
     if (scrollTop > 50) {
-        header.classList.add('compact');
+        if (header) header.classList.add('compact');
     } else {
-        header.classList.remove('compact');
+        if (header) header.classList.remove('compact');
     }
     lastScrollTop = scrollTop;
 });

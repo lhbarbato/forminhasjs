@@ -322,26 +322,29 @@
  
     /* ── Auth state ── */
     onAuthStateChanged(auth, user => {
-        if (user) {
-            const nome      = user.displayName || user.email.split('@')[0];
-            const primeiroNome = nome.split(' ')[0];
-            const iniciais  = nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
- 
-            // Esconde "Entrar", mostra menu
-            btnEntrar.style.display    = 'none';
-            usuarioMenu.style.display  = 'block';
- 
-            // Preenche dados
-            usuarioAvatar.textContent  = iniciais;
-            usuarioNome.textContent    = primeiroNome;
-            dropdownNome.textContent   = user.displayName || primeiroNome;
-            dropdownEmail.textContent  = user.email;
-        } else {
-            // Mostra "Entrar", esconde menu
-            btnEntrar.style.display    = '';
-            usuarioMenu.style.display  = 'none';
-        }
-    });
+    if (user) {
+        const nome      = user.displayName || user.email.split('@')[0];
+        const primeiroNome = nome.split(' ')[0];
+        const iniciais  = nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        
+        // ADICIONE ESTA LINHA:
+        localStorage.setItem('usuario_id', user.uid);
+        
+        btnEntrar.style.display    = 'none';
+        usuarioMenu.style.display  = 'block';
+        
+        usuarioAvatar.textContent  = iniciais;
+        usuarioNome.textContent    = primeiroNome;
+        dropdownNome.textContent   = user.displayName || primeiroNome;
+        dropdownEmail.textContent  = user.email;
+    } else {
+        // ADICIONE ESTA LINHA:
+        localStorage.removeItem('usuario_id');
+        
+        btnEntrar.style.display    = '';
+        usuarioMenu.style.display  = 'none';
+    }
+});
  
     /* ── Toggle dropdown ── */
     usuarioTrigger?.addEventListener('click', e => {
