@@ -274,8 +274,12 @@
     const auth = getAuth(app);
 
     // Se já estiver logada, vai direto para a loja
+    let redirecionarAutomaticamente = true;
+
     onAuthStateChanged(auth, user => {
-        if (user) window.location.href = 'index.html';
+        if (user && redirecionarAutomaticamente) {
+            window.location.href = 'index.html';
+        }
     });
 
     // ── Helpers UI ────────────────────────────────────────────
@@ -353,6 +357,7 @@
 
     // ── LOGIN ─────────────────────────────────────────────────
     window.fazerLogin = async () => {
+        redirecionarAutomaticamente = false; // ← adicione aqui
         limparAlerta('alerta-login');
         const email = document.getElementById('login-email').value.trim();
         const senha = document.getElementById('login-senha').value;
@@ -378,6 +383,7 @@
 
     // ── CADASTRO ──────────────────────────────────────────────
     window.fazerCadastro = async () => {
+        redirecionarAutomaticamente = false; // ← adicione aqui
         limparAlerta('alerta-cadastro');
         const nome     = document.getElementById('cad-nome').value.trim();
         const email    = document.getElementById('cad-email').value.trim();
