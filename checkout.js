@@ -2,7 +2,6 @@
 const SUPABASE_URL = 'https://bqnmvesukoyeajcxajiv.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_1V5PdDziblL5m8mu186-KQ_OYPqATNL';
 
-// Função auxiliar para chamadas ao Supabase
 async function supabaseInsert(tabela, dados) {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/${tabela}`, {
         method: 'POST',
@@ -24,7 +23,6 @@ async function supabaseInsert(tabela, dados) {
 }
 
 // ========== CARRINHO ==========
-// Lê o carrinho salvo no localStorage
 function lerCarrinho() {
     try {
         const salvo = localStorage.getItem('carrinho_forminhas');
@@ -55,8 +53,8 @@ function renderizarResumo() {
         div.className = 'resumo-item';
         div.innerHTML = `
             <div class="resumo-item-nome">
-                ${item.nome}
-                <span>Qtd: ${item.quantidade} × R$ ${item.preco.toFixed(2)}</span>
+                <strong>${item.nome}</strong>
+                <span>Qt: ${item.quantidade} × R$ ${item.preco.toFixed(2)}</span>
             </div>
             <div class="resumo-item-preco">R$ ${subtotal.toFixed(2)}</div>
         `;
@@ -68,17 +66,23 @@ function renderizarResumo() {
 }
 
 // ========== BUSCAR CEP ==========
-function formatarCEP(input) {
-    let valor = input.replace(/\D/g, '');
+function formatarCEP(valor) {
+    valor = valor.replace(/\D/g, '');
     if (valor.length > 5) valor = valor.slice(0, 5) + '-' + valor.slice(5, 8);
     return valor;
 }
 
-document.getElementById('cep').addEventListener('input', function () {
-    this.value = formatarCEP(this.value);
-    if (this.value.replace(/\D/g, '').length === 8) {
-        buscarCEP();
+document.addEventListener('DOMContentLoaded', function () {
+    const cepInput = document.getElementById('cep');
+    if (cepInput) {
+        cepInput.addEventListener('input', function () {
+            this.value = formatarCEP(this.value);
+            if (this.value.replace(/\D/g, '').length === 8) buscarCEP();
+        });
     }
+
+    carrinho = lerCarrinho();
+    renderizarResumo();
 });
 
 async function buscarCEP() {
@@ -123,29 +127,29 @@ function selecionarPagamento(elemento, valor) {
 // ========== VALIDAÇÃO ==========
 function validarFormulario() {
     const campos = [
-        { id: 'nome', label: 'Nome' },
-        { id: 'email', label: 'Email' },
+        { id: 'nome',     label: 'Nome' },
+        { id: 'email',    label: 'E-mail' },
         { id: 'telefone', label: 'WhatsApp' },
-        { id: 'cep', label: 'CEP' },
+        { id: 'cep',      label: 'CEP' },
         { id: 'endereco', label: 'Endereço' },
-        { id: 'numero', label: 'Número' },
-        { id: 'bairro', label: 'Bairro' },
-        { id: 'cidade', label: 'Cidade' },
-        { id: 'estado', label: 'Estado' },
+        { id: 'numero',   label: 'Número' },
+        { id: 'bairro',   label: 'Bairro' },
+        { id: 'cidade',   label: 'Cidade' },
+        { id: 'estado',   label: 'Estado' },
     ];
 
     for (const campo of campos) {
-        const valor = document.getElementById(campo.id).value.trim();
+        const valor = document.getElementById(campo.id)?.value.trim();
         if (!valor) {
             mostrarErro(`Por favor, preencha o campo: ${campo.label}`);
-            document.getElementById(campo.id).focus();
+            document.getElementById(campo.id)?.focus();
             return false;
         }
     }
 
     const email = document.getElementById('email').value.trim();
     if (!/\S+@\S+\.\S+/.test(email)) {
-        mostrarErro('Digite um email válido.');
+        mostrarErro('Digite um e-mail válido.');
         document.getElementById('email').focus();
         return false;
     }
@@ -156,7 +160,6 @@ function validarFormulario() {
 // ========== CONFIRMAR PEDIDO ==========
 async function confirmarPedido() {
     esconderErro();
-
     if (!validarFormulario()) return;
 
     const btn = document.getElementById('btnConfirmar');
@@ -166,52 +169,46 @@ async function confirmarPedido() {
     loading.style.display = 'block';
 
     try {
-        // 1. Salvar cliente
         const clienteData = {
-            nome: document.getElementById('nome').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            telefone: document.getElementById('telefone').value.trim(),
-            cep: document.getElementById('cep').value.trim(),
-            endereco: document.getElementById('endereco').value.trim(),
-            numero: document.getElementById('numero').value.trim(),
-            bairro: document.getElementById('bairro').value.trim(),
-            cidade: document.getElementById('cidade').value.trim(),
-            estado: document.getElementById('estado').value.trim().toUpperCase(),
+            nome:      document.getElementById('nome').value.trim(),
+            email:     document.getElementById('email').value.trim(),
+            telefone:  document.getElementById('telefone').value.trim(),
+            cep:       document.getElementById('cep').value.trim(),
+            endereco:  document.getElementById('endereco').value.trim(),
+            numero:    document.getElementById('numero').value.trim(),
+            bairro:    document.getElementById('bairro').value.trim(),
+            cidade:    document.getElementById('cidade').value.trim(),
+            estado:    document.getElementById('estado').value.trim().toUpperCase(),
         };
 
         const clienteResposta = await supabaseInsert('clientes', clienteData);
         const clienteId = clienteResposta[0].id;
 
-        // 2. Calcular total
         const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
 
-        // 3. Salvar pedido
         const pedidoData = {
-            cliente_id: clienteId,
-            total: total,
-            status: 'pendente',
+            cliente_id:      clienteId,
+            total:           total,
+            status:          'pendente',
             forma_pagamento: formaPagamentoSelecionada,
         };
 
         const pedidoResposta = await supabaseInsert('pedidos', pedidoData);
         const pedidoId = pedidoResposta[0].id;
 
-        // 4. Salvar itens do pedido
         const itens = carrinho.map(item => ({
-            pedido_id: pedidoId,
-            produto_id: item.id,
-            produto_nome: item.nome,
-            cor: item.cor,
-            quantidade: item.quantidade,
+            pedido_id:      pedidoId,
+            produto_id:     item.id,
+            produto_nome:   item.nome,
+            cor:            item.cor,
+            quantidade:     item.quantidade,
             preco_unitario: item.preco,
         }));
 
         await supabaseInsert('itens_pedido', itens);
 
-        // 5. Limpar carrinho
         localStorage.removeItem('carrinho_forminhas');
 
-        // 6. Mostrar tela de sucesso
         document.getElementById('conteudoPrincipal').style.display = 'none';
         document.getElementById('telaSucesso').style.display = 'block';
         document.getElementById('numeroPedido').textContent = `Pedido #${pedidoId}`;
@@ -238,8 +235,21 @@ function esconderErro() {
     document.getElementById('msgErro').style.display = 'none';
 }
 
-// ========== INICIALIZAR ==========
-document.addEventListener('DOMContentLoaded', function () {
-    carrinho = lerCarrinho();
-    renderizarResumo();
+// ========== HEADER SCROLL ==========
+let lastScrollTop = 0;
+const header = document.querySelector('header');
+
+window.addEventListener('scroll', function () {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        header.classList.add('hide');
+    } else {
+        header.classList.remove('hide');
+    }
+    if (scrollTop > 50) {
+        header.classList.add('compact');
+    } else {
+        header.classList.remove('compact');
+    }
+    lastScrollTop = scrollTop;
 });

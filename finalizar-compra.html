@@ -3,80 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finalizar Compra - Forminhas JS</title>
+    <title>Finalizar Compra — Forminhas JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .checkout-wrapper {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+        /* ========== CHECKOUT ESPECÍFICO ========== */
+        .checkout-page {
+            min-height: 100vh;
+            padding: 60px 0 100px;
+            background: var(--fundo);
         }
 
-        @media (max-width: 768px) {
+        .checkout-eyebrow {
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--caqui);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .checkout-titulo {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 400;
+            color: var(--texto);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .checkout-titulo em {
+            font-style: italic;
+            color: var(--rosa-deep);
+        }
+
+        .checkout-sub {
+            text-align: center;
+            font-family: var(--font-script);
+            font-style: italic;
+            font-size: 17px;
+            color: var(--texto-light);
+            margin-bottom: 56px;
+        }
+
+        .checkout-deco {
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 8px;
+            color: var(--rosa-deep);
+            margin-bottom: 44px;
+            opacity: 0.6;
+        }
+
+        /* ========== GRID CHECKOUT ========== */
+        .checkout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
             .checkout-wrapper {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                margin: 20px auto;
             }
         }
 
+        /* ========== SEÇÕES ========== */
         .checkout-section {
-            background: #fff;
-            border: 2px solid #DCDDDA;
-            padding: 30px;
+            background: var(--branco);
+            border: 1px solid rgba(193, 192, 194, 0.35);
+            padding: 36px 40px;
+            margin-bottom: 24px;
         }
 
-        .checkout-section h2 {
-            font-size: 20px;
-            font-weight: normal;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #DCDDDA;
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        @media (max-width: 480px) {
+            .checkout-section { padding: 24px 20px; }
         }
 
+        .checkout-section-titulo {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--texto);
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(193, 192, 194, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkout-section-titulo span {
+            color: var(--rosa-deep);
+            font-size: 12px;
+        }
+
+        /* ========== FORM ========== */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            font-size: 12px;
-            letter-spacing: 1px;
+            font-family: var(--font-body);
+            font-size: 10px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            color: #333;
-            margin-bottom: 6px;
+            color: var(--caqui);
+            margin-bottom: 8px;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #DCDDDA;
-            font-family: 'Georgia', serif;
-            font-size: 13px;
-            background: #fff;
-            color: #333;
-            transition: 0.3s;
+            padding: 14px 16px;
+            border: 1px solid rgba(193, 192, 194, 0.45);
+            background: var(--fundo-alt);
+            font-family: var(--font-script);
+            font-size: 16px;
+            color: var(--texto);
+            transition: border-color var(--transition), background var(--transition);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .form-group input::placeholder {
+            color: var(--cinza);
+            font-style: italic;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #BFD99C;
+            border-color: var(--rosa-deep);
+            background: var(--branco);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
         }
 
         .cep-wrapper {
@@ -85,247 +161,324 @@
             align-items: flex-end;
         }
 
-        .cep-wrapper input {
-            flex: 1;
-        }
+        .cep-wrapper input { flex: 1; }
 
         .btn-cep {
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            color: #fff;
+            background: var(--texto);
+            color: var(--fundo);
             border: none;
-            padding: 12px 18px;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            font-size: 12px;
-            letter-spacing: 1px;
-            white-space: nowrap;
+            padding: 14px 20px;
+            font-family: var(--font-body);
+            font-size: 9px;
+            font-weight: 400;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
+        .btn-cep:hover {
+            background: var(--caqui);
+        }
+
+        /* ========== PAGAMENTO ========== */
         .pagamento-opcoes {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 5px;
+            gap: 10px;
         }
 
         .pagamento-opcao {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 15px;
-            border: 2px solid #DCDDDA;
+            gap: 14px;
+            padding: 16px 20px;
+            border: 1px solid rgba(193, 192, 194, 0.4);
             cursor: pointer;
-            transition: 0.3s;
+            transition: border-color var(--transition), background var(--transition);
+            background: var(--fundo-alt);
         }
 
         .pagamento-opcao:hover {
-            border-color: #BFD99C;
+            border-color: var(--rosa-deep);
         }
 
         .pagamento-opcao.selecionado {
-            border-color: #BFD99C;
-            background: #f9fdf4;
+            border-color: var(--rosa-deep);
+            background: rgba(236, 197, 198, 0.08);
         }
 
         .pagamento-opcao input[type="radio"] {
-            accent-color: #BFD99C;
-            width: 16px;
-            height: 16px;
+            accent-color: var(--rosa-deep);
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
         }
 
         .pagamento-opcao label {
-            font-size: 14px;
+            font-family: var(--font-body);
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            color: var(--texto);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
         }
 
-        /* ===== RESUMO DO PEDIDO ===== */
+        .pagamento-tag {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--branco);
+            background: var(--rosa-deep);
+            padding: 3px 8px;
+            margin-left: auto;
+        }
+
+        /* ========== RESUMO ========== */
+        .resumo-sticky {
+            position: sticky;
+            top: 100px;
+        }
+
         .resumo-itens {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-            max-height: 300px;
+            gap: 0;
+            margin-bottom: 0;
+            max-height: 280px;
             overflow-y: auto;
         }
+
+        .resumo-itens::-webkit-scrollbar { width: 3px; }
+        .resumo-itens::-webkit-scrollbar-track { background: var(--fundo); }
+        .resumo-itens::-webkit-scrollbar-thumb { background: var(--cinza); }
 
         .resumo-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #DCDDDA;
-            font-size: 14px;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(193, 192, 194, 0.22);
+            gap: 12px;
         }
 
         .resumo-item-nome {
             flex: 1;
         }
 
-        .resumo-item-nome span {
+        .resumo-item-nome strong {
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--texto);
             display: block;
+            margin-bottom: 3px;
+        }
+
+        .resumo-item-nome span {
             font-size: 11px;
-            color: #999;
-            margin-top: 3px;
+            color: var(--texto-light);
         }
 
         .resumo-item-preco {
-            font-weight: bold;
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: var(--font-display);
+            font-size: 14px;
+            color: var(--caqui);
+            white-space: nowrap;
         }
 
         .resumo-vazio {
             text-align: center;
-            color: #999;
+            font-family: var(--font-script);
             font-style: italic;
-            padding: 20px 0;
+            color: var(--texto-light);
+            padding: 24px 0;
+            font-size: 16px;
         }
 
-        .resumo-total {
+        .resumo-total-linha {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-top: 2px solid #DCDDDA;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 20px 0 0;
+            margin-top: 4px;
+            border-top: 1px solid rgba(193, 192, 194, 0.3);
+        }
+
+        .resumo-total-label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--texto-light);
         }
 
         .resumo-total-valor {
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 22px;
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 400;
+            color: var(--caqui);
         }
 
-        .btn-confirmar {
-            width: 100%;
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            color: #fff;
-            border: none;
-            padding: 16px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        .btn-confirmar:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(191, 217, 156, 0.4);
-        }
-
-        .btn-confirmar:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .voltar-link {
-            display: inline-block;
-            margin: 20px 0 0 0;
-            font-size: 13px;
-            color: #999;
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .voltar-link:hover {
-            color: #BFD99C;
-        }
-
-        /* ===== TELA DE SUCESSO ===== */
-        #telaSucesso {
-            display: none;
-            max-width: 600px;
-            margin: 80px auto;
-            padding: 60px 40px;
-            text-align: center;
-            border: 2px solid #DCDDDA;
-        }
-
-        #telaSucesso .sucesso-icone {
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        #telaSucesso h2 {
-            font-size: 28px;
-            font-weight: normal;
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-        }
-
-        #telaSucesso p {
-            color: #666;
-            font-size: 15px;
-            margin-bottom: 10px;
-            line-height: 1.8;
-        }
-
-        #numeroPedido {
-            font-size: 22px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #BFD99C 0%, #A2D9AE 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: block;
-            margin: 20px 0;
-        }
-
+        /* ========== MENSAGENS ========== */
         .msg-erro {
-            background: #fff0f0;
-            border: 1px solid #ffcccc;
-            color: #cc0000;
-            padding: 12px 15px;
+            background: rgba(220, 50, 50, 0.05);
+            border: 1px solid rgba(220, 50, 50, 0.2);
+            color: #9a2929;
+            padding: 12px 16px;
             font-size: 13px;
-            margin-top: 10px;
+            font-family: var(--font-body);
+            margin-top: 12px;
             display: none;
         }
 
         .msg-carregando {
             text-align: center;
-            color: #999;
+            font-family: var(--font-script);
             font-style: italic;
-            font-size: 13px;
-            margin-top: 10px;
+            color: var(--texto-light);
+            font-size: 15px;
+            margin-top: 12px;
             display: none;
         }
 
+        /* ========== BOTÃO CONFIRMAR ========== */
+        .btn-confirmar {
+            width: 100%;
+            background: var(--texto);
+            color: var(--fundo);
+            border: none;
+            padding: 17px;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .btn-confirmar:hover:not(:disabled) {
+            background: var(--caqui);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(131, 125, 104, 0.25);
+        }
+
+        .btn-confirmar:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .voltar-link {
+            display: inline-block;
+            margin-top: 16px;
+            font-family: var(--font-body);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--texto-light);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        .voltar-link:hover { color: var(--caqui); }
+
+        /* ========== CARRINHO VAZIO ========== */
         .carrinho-vazio-aviso {
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
+            padding: 80px 20px;
         }
 
         .carrinho-vazio-aviso p {
-            font-size: 16px;
+            font-family: var(--font-script);
+            font-style: italic;
+            font-size: 20px;
+            color: var(--texto-light);
+            margin-bottom: 32px;
+        }
+
+        /* ========== TELA DE SUCESSO ========== */
+        #telaSucesso {
+            display: none;
+            max-width: 560px;
+            margin: 80px auto;
+            padding: 70px 60px;
+            text-align: center;
+            background: var(--branco);
+            border: 1px solid rgba(236, 197, 198, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            #telaSucesso { padding: 48px 28px; margin: 40px auto; }
+        }
+
+        .sucesso-ornamento {
+            font-size: 14px;
+            letter-spacing: 10px;
+            color: var(--rosa-deep);
+            margin-bottom: 28px;
+            opacity: 0.7;
+        }
+
+        #telaSucesso h2 {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 400;
+            color: var(--texto);
             margin-bottom: 20px;
         }
+
+        #telaSucesso h2 em {
+            font-style: italic;
+            color: var(--rosa-deep);
+        }
+
+        #telaSucesso p {
+            font-family: var(--font-script);
+            font-style: italic;
+            font-size: 18px;
+            color: var(--texto-light);
+            margin-bottom: 12px;
+            line-height: 1.85;
+        }
+
+        #numeroPedido {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--caqui);
+            border: 1px solid rgba(193, 192, 194, 0.4);
+            padding: 10px 28px;
+            margin: 24px 0;
+        }
+
+        .sucesso-nota {
+            font-size: 12px !important;
+            letter-spacing: 1px;
+            color: var(--cinza) !important;
+            font-family: var(--font-body) !important;
+            font-style: normal !important;
+        }
+
+        /* ========== HEADER NO CHECKOUT ========== */
+        .checkout-header-logo .logo-script { font-size: 24px; }
     </style>
 </head>
 <body>
 
     <!-- HEADER -->
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>🧁 Forminhas para Doces JS</h1>
+    <header id="header">
+        <div class="header-inner">
+            <div class="logo checkout-header-logo">
+                <span class="logo-script">Forminhas</span>
+                <span class="logo-serif">JS</span>
                 <p class="tagline">Forminhas Artesanais em Papel de Seda</p>
             </div>
             <nav>
@@ -337,151 +490,189 @@
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <div id="conteudoPrincipal">
+    <div id="conteudoPrincipal" class="checkout-page">
+        <div class="container">
 
-        <!-- CARRINHO VAZIO -->
-        <div id="carrinhoVazioAviso" class="carrinho-vazio-aviso" style="display:none">
-            <p>🛒 Seu carrinho está vazio!</p>
-            <a href="index.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 12px 30px;">
-                Voltar à Loja
-            </a>
-        </div>
+            <!-- TÍTULO -->
+            <span class="checkout-eyebrow">Quase lá!</span>
+            <h1 class="checkout-titulo">Finalizar <em>Compra</em></h1>
+            <p class="checkout-sub">Preencha seus dados e escolha como prefere pagar</p>
+            <div class="checkout-deco">— ✦ —</div>
 
-        <!-- FORMULÁRIO DE CHECKOUT -->
-        <div id="checkoutForm">
-            <div class="checkout-wrapper">
+            <!-- AVISO CARRINHO VAZIO -->
+            <div id="carrinhoVazioAviso" class="carrinho-vazio-aviso" style="display:none">
+                <p>Seu carrinho está vazio</p>
+                <a href="index.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 14px 38px;">
+                    Ver Produtos
+                </a>
+            </div>
 
-                <!-- COLUNA ESQUERDA: DADOS DO CLIENTE -->
-                <div>
-                    <div class="checkout-section">
-                        <h2>✦ Seus Dados</h2>
+            <!-- FORMULÁRIO -->
+            <div id="checkoutForm">
+                <div class="checkout-wrapper">
 
-                        <div class="form-group">
-                            <label>Nome Completo *</label>
-                            <input type="text" id="nome" placeholder="Seu nome completo" required>
-                        </div>
+                    <!-- COLUNA ESQUERDA -->
+                    <div>
 
-                        <div class="form-row">
+                        <!-- DADOS PESSOAIS -->
+                        <div class="checkout-section">
+                            <h2 class="checkout-section-titulo">
+                                <span>✦</span> Seus Dados
+                            </h2>
+
                             <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" id="email" placeholder="seu@email.com" required>
+                                <label>Nome Completo *</label>
+                                <input type="text" id="nome" placeholder="Seu nome completo" required>
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>E-mail *</label>
+                                    <input type="email" id="email" placeholder="seu@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>WhatsApp *</label>
+                                    <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ENDEREÇO -->
+                        <div class="checkout-section">
+                            <h2 class="checkout-section-titulo">
+                                <span>✦</span> Endereço de Entrega
+                            </h2>
+
                             <div class="form-group">
-                                <label>WhatsApp *</label>
-                                <input type="tel" id="telefone" placeholder="(11) 99999-9999" required>
+                                <label>CEP *</label>
+                                <div class="cep-wrapper">
+                                    <input type="text" id="cep" placeholder="00000-000" maxlength="9">
+                                    <button class="btn-cep" onclick="buscarCEP()">Buscar</button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <br>
-
-                    <div class="checkout-section">
-                        <h2>✦ Endereço de Entrega</h2>
-
-                        <div class="form-group">
-                            <label>CEP *</label>
-                            <div class="cep-wrapper">
-                                <input type="text" id="cep" placeholder="00000-000" maxlength="9">
-                                <button class="btn-cep" onclick="buscarCEP()">Buscar</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Endereço *</label>
-                            <input type="text" id="endereco" placeholder="Rua, Avenida...">
-                        </div>
-
-                        <div class="form-row">
                             <div class="form-group">
-                                <label>Número *</label>
-                                <input type="text" id="numero" placeholder="123">
+                                <label>Endereço *</label>
+                                <input type="text" id="endereco" placeholder="Rua, Avenida...">
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Número *</label>
+                                    <input type="text" id="numero" placeholder="123">
+                                </div>
+                                <div class="form-group">
+                                    <label>Complemento</label>
+                                    <input type="text" id="complemento" placeholder="Apto, Bloco...">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Bairro *</label>
                                 <input type="text" id="bairro" placeholder="Seu bairro">
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Cidade *</label>
+                                    <input type="text" id="cidade" placeholder="Sua cidade">
+                                </div>
+                                <div class="form-group">
+                                    <label>Estado *</label>
+                                    <input type="text" id="estado" placeholder="SP" maxlength="2">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Cidade *</label>
-                                <input type="text" id="cidade" placeholder="Sua cidade">
-                            </div>
-                            <div class="form-group">
-                                <label>Estado *</label>
-                                <input type="text" id="estado" placeholder="SP" maxlength="2">
+                        <!-- PAGAMENTO -->
+                        <div class="checkout-section">
+                            <h2 class="checkout-section-titulo">
+                                <span>✦</span> Forma de Pagamento
+                            </h2>
+
+                            <div class="pagamento-opcoes">
+                                <div class="pagamento-opcao selecionado" onclick="selecionarPagamento(this, 'pix')">
+                                    <input type="radio" name="pagamento" value="pix" checked>
+                                    <label>
+                                        Pix — à vista
+                                        <span class="pagamento-tag">Recomendado</span>
+                                    </label>
+                                </div>
+                                <div class="pagamento-opcao" onclick="selecionarPagamento(this, 'boleto')">
+                                    <input type="radio" name="pagamento" value="boleto">
+                                    <label>Boleto Bancário</label>
+                                </div>
+                                <div class="pagamento-opcao" onclick="selecionarPagamento(this, 'cartao')">
+                                    <input type="radio" name="pagamento" value="cartao">
+                                    <label>Cartão de Crédito ou Débito</label>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <br>
+                    <!-- COLUNA DIREITA — RESUMO -->
+                    <div class="resumo-sticky">
+                        <div class="checkout-section">
+                            <h2 class="checkout-section-titulo">
+                                <span>✦</span> Resumo do Pedido
+                            </h2>
 
-                    <div class="checkout-section">
-                        <h2>✦ Forma de Pagamento</h2>
+                            <div class="resumo-itens" id="resumoItens">
+                                <p class="resumo-vazio">Carregando...</p>
+                            </div>
 
-                        <div class="pagamento-opcoes">
-                            <div class="pagamento-opcao selecionado" onclick="selecionarPagamento(this, 'pix')">
-                                <input type="radio" name="pagamento" value="pix" checked>
-                                <label>💚 Pix — à vista com desconto</label>
+                            <div class="resumo-total-linha">
+                                <span class="resumo-total-label">Total</span>
+                                <span class="resumo-total-valor">R$ <span id="resumoTotal">0,00</span></span>
                             </div>
-                            <div class="pagamento-opcao" onclick="selecionarPagamento(this, 'boleto')">
-                                <input type="radio" name="pagamento" value="boleto">
-                                <label>📄 Boleto Bancário</label>
-                            </div>
-                            <div class="pagamento-opcao" onclick="selecionarPagamento(this, 'cartao')">
-                                <input type="radio" name="pagamento" value="cartao">
-                                <label>💳 Cartão de Crédito/Débito</label>
-                            </div>
+
+                            <div class="msg-erro" id="msgErro"></div>
+                            <div class="msg-carregando" id="msgCarregando">Salvando seu pedido...</div>
+
+                            <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPedido()">
+                                Confirmar Pedido
+                            </button>
+
+                            <a href="index.html" class="voltar-link">← Continuar comprando</a>
                         </div>
                     </div>
+
                 </div>
-
-                <!-- COLUNA DIREITA: RESUMO DO PEDIDO -->
-                <div>
-                    <div class="checkout-section">
-                        <h2>✦ Resumo do Pedido</h2>
-
-                        <div class="resumo-itens" id="resumoItens">
-                            <p class="resumo-vazio">Carregando carrinho...</p>
-                        </div>
-
-                        <div class="resumo-total">
-                            <span>Total</span>
-                            <span class="resumo-total-valor">R$ <span id="resumoTotal">0,00</span></span>
-                        </div>
-
-                        <div class="msg-erro" id="msgErro"></div>
-                        <div class="msg-carregando" id="msgCarregando">⏳ Salvando seu pedido...</div>
-
-                        <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPedido()">
-                            Confirmar Pedido
-                        </button>
-
-                        <a href="index.html" class="voltar-link">← Continuar comprando</a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
     <!-- TELA DE SUCESSO -->
     <div id="telaSucesso">
-        <div class="sucesso-icone">🎉</div>
-        <h2>Pedido Confirmado!</h2>
-        <p>Obrigado pela sua compra! Em breve entraremos em contato pelo WhatsApp para combinar os detalhes.</p>
-        <span id="numeroPedido"></span>
-        <p style="font-size: 13px; color: #aaa;">Guarde esse número para acompanhar seu pedido.</p>
-        <br>
-        <a href="index.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 12px 30px;">
-            Voltar à Loja
-        </a>
+        <div class="container">
+            <div class="sucesso-ornamento">✦ ✦ ✦</div>
+            <h2>Pedido <em>Confirmado!</em></h2>
+            <p>Obrigado pela sua compra! Em breve entraremos em contato pelo WhatsApp para combinar todos os detalhes.</p>
+            <span id="numeroPedido"></span>
+            <p class="sucesso-nota">Guarde esse número para acompanhar seu pedido.</p>
+            <br><br>
+            <a href="index.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding: 14px 38px;">
+                Voltar à Loja
+            </a>
+        </div>
     </div>
 
+    <!-- FOOTER -->
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Forminhas JS - Todos os direitos reservados</p>
+        <div class="footer-ornament">✦ ✦ ✦</div>
+        <div class="container footer-inner">
+            <div class="footer-logo">
+                <span class="logo-script" style="font-size:24px; color: var(--fundo);">Forminhas JS</span>
+                <p>Forminhas Artesanais em Papel de Seda</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html#inicio">Início</a>
+                <a href="index.html#sobre">Sobre</a>
+                <a href="index.html#produtos">Produtos</a>
+                <a href="index.html#contato">Contato</a>
+            </div>
         </div>
+        <p class="footer-copy">© 2026 Forminhas JS · Feito com ❤️ para seus doces especiais</p>
     </footer>
 
     <script src="checkout.js"></script>
