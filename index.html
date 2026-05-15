@@ -26,7 +26,47 @@
                     <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#produtos">Produtos</a></li>
                     <li><a href="#contato">Contato</a></li>
-                    <li><a href="login.html">Entrar</a></li>
+                    <li class="nav-usuario" id="navUsuario">
+    <!-- Estado: deslogado (padrão) -->
+    <a href="login.html" id="btnEntrar">Entrar</a>
+ 
+    <!-- Estado: logado (oculto até o Firebase confirmar) -->
+    <div class="usuario-menu" id="usuarioMenu" style="display:none">
+        <button class="usuario-trigger" id="usuarioTrigger" aria-haspopup="true" aria-expanded="false">
+            <span class="usuario-avatar" id="usuarioAvatar">?</span>
+            <span class="usuario-nome" id="usuarioNome">…</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" class="usuario-seta">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        </button>
+ 
+        <div class="usuario-dropdown" id="usuarioDropdown">
+            <div class="dropdown-header">
+                <p class="dropdown-nome" id="dropdownNome">—</p>
+                <p class="dropdown-email" id="dropdownEmail">—</p>
+            </div>
+ 
+            <div class="dropdown-divider"></div>
+ 
+            <a href="minha-conta.html" class="dropdown-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Minha Conta
+            </a>
+            <a href="#" class="dropdown-item" onclick="mostrarCarrinho(); return false;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                Meu Carrinho
+            </a>
+ 
+            <div class="dropdown-divider"></div>
+ 
+            <button class="dropdown-item dropdown-sair" id="btnSair">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sair
+            </button>
+        </div>
+    </div>
+</li>
                     <li>
                         <a href="#" class="nav-cart" onclick="mostrarCarrinho(); return false;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
@@ -253,6 +293,84 @@
             <button class="btn-primary btn-checkout" onclick="irParaCheckout()">Finalizar Compra</button>
         </div>
     </div>
+<script type="module">
+    import { initializeApp }       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut }
+                                   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+ 
+    const firebaseConfig = {
+        apiKey:            "AIzaSyC0WQMgciBTSnQTGp8ex-jasvVxMg9Nwj4",
+        authDomain:        "forminhas-js-e4d68.firebaseapp.com",
+        projectId:         "forminhas-js-e4d68",
+        storageBucket:     "forminhas-js-e4d68.firebasestorage.app",
+        messagingSenderId: "881627361514",
+        appId:             "1:881627361514:web:5373127472468024346793",
+    };
+ 
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+ 
+    /* ── Elementos ── */
+    const btnEntrar      = document.getElementById('btnEntrar');
+    const usuarioMenu    = document.getElementById('usuarioMenu');
+    const usuarioTrigger = document.getElementById('usuarioTrigger');
+    const usuarioAvatar  = document.getElementById('usuarioAvatar');
+    const usuarioNome    = document.getElementById('usuarioNome');
+    const dropdownNome   = document.getElementById('dropdownNome');
+    const dropdownEmail  = document.getElementById('dropdownEmail');
+    const btnSair        = document.getElementById('btnSair');
+ 
+    /* ── Auth state ── */
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            const nome      = user.displayName || user.email.split('@')[0];
+            const primeiroNome = nome.split(' ')[0];
+            const iniciais  = nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+ 
+            // Esconde "Entrar", mostra menu
+            btnEntrar.style.display    = 'none';
+            usuarioMenu.style.display  = 'block';
+ 
+            // Preenche dados
+            usuarioAvatar.textContent  = iniciais;
+            usuarioNome.textContent    = primeiroNome;
+            dropdownNome.textContent   = user.displayName || primeiroNome;
+            dropdownEmail.textContent  = user.email;
+        } else {
+            // Mostra "Entrar", esconde menu
+            btnEntrar.style.display    = '';
+            usuarioMenu.style.display  = 'none';
+        }
+    });
+ 
+    /* ── Toggle dropdown ── */
+    usuarioTrigger?.addEventListener('click', e => {
+        e.stopPropagation();
+        const menu = document.getElementById('usuarioMenu');
+        const aberto = menu.classList.toggle('aberto');
+        usuarioTrigger.setAttribute('aria-expanded', aberto);
+    });
+ 
+    /* ── Fechar ao clicar fora ── */
+    document.addEventListener('click', e => {
+        const menu = document.getElementById('usuarioMenu');
+        if (!menu?.contains(e.target)) {
+            menu?.classList.remove('aberto');
+            usuarioTrigger?.setAttribute('aria-expanded', 'false');
+        }
+    });
+ 
+    /* ── Logout ── */
+    btnSair?.addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+            // Opcional: redireciona para login após sair
+            // window.location.href = 'login.html';
+        } catch (err) {
+            console.error('Erro ao sair:', err);
+        }
+    });
+</script>
 
     <script src="script.js"></script>
 </body>
